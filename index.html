@@ -11,10 +11,18 @@
         <div class="main-container">
             <h1>My Box</h1>
             <input type="text" id="note-title" placeholder="Title">
-            <textarea id="note-content"></textarea>
+            <textarea id="note-content" placeholder="What's on your mind?" title="Type notes here"></textarea>
             <button id="save-note">Save Note</button>
             <div id="notes-container"></div>
         </div>
+        <!-- Note Modal -->
+         <div id="note-modal" class="note-modal">
+            <span class="close">&times</span>
+            <div class="modal-content">
+                <h2 id="modal-title"></h2>
+                <p id="modal-content"></p>
+            </div>
+         </div>
         <script src="main.js"></script>
     </body>
 </html>

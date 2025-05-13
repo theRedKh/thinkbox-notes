@@ -11,9 +11,12 @@ function loadNotes() {
         noteEl.classList.add('note');
         // Add delete button
         noteEl.innerHTML = `
-            <h3>${note.title}</h3>
+            <div class="note-header">
+                <h3 class="note-title" title="View Note" onclick="viewNote(${index})">${note.title}</h3>
+                <button title="Edit" onclick="editNote(${index})">Edit</button>
+                <button title="Delete" onclick="deleteNote(${index})">Delete</button>
+            </div>
             <p>${note.content}</p>
-            <button onclick="deleteNote(${index})">Delete</button> 
         `;
         notesContainer.appendChild(noteEl); // Append each note to the container
     });
@@ -43,6 +46,40 @@ function deleteNote(index) {
     loadNotes(); // Reload notes to reflect the deletion
 }
 
+function editNote(index){
+    const notes = JSON.parse(localStorage.getItem('notes')) || []; // Load existing notes
+    titleInput.value = notes[index].title; // Set the title input to the note's title
+    contentInput.value = notes[index].content; // Set the content input to the note's content
+    deleteNote(index); // Delete the note after loading it into the input fields
+    // This allows the user to edit the note and save it as a new one
+    // without having to manually delete the old note.
+
+}
+
+//View note as a modal
+function viewNote(index) {
+    const notes = JSON.parse(localStorage.getItem('notes')) || []; // Load existing notes
+    const note = notes[index]; // Get the note at the specified index
+    const modal = document.getElementById("note-modal"); // Get the modal element
+    const modalTitle = document.getElementById("modal-title"); // Get the modal title element
+    const modalContent = document.getElementById("modal-content"); // Get the modal content element
+   
+    modal.style.display = "block"; // Show the modal
+    modalTitle.innerText = note.title; // Set the modal title to the note's title
+    modalContent.innerText = note.content; // Set the modal content to the note's content
+    
+    const closeBtn = document.getElementsByClassName("close")[0]; // Get the close button
+    closeBtn.onclick = function() {
+        modal.style.display = "none"; // Hide the modal when the close button is clicked
+    }
+
+    //Close modal when clicking outside
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
 saveBtn.addEventListener("click", saveNote); // Add event listener to the save button
 window.addEventListener("DOMContentLoaded", loadNotes); // Load notes when the page is loaded
-
