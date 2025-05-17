@@ -10,9 +10,16 @@
     <body>
         <div class="main-container">
             <h1>My Box</h1>
-            <input type="text" id="note-title" placeholder="Title">
+            <input type="text" id="note-title" placeholder="Title"/>
             <textarea id="note-content" placeholder="What's on your mind?" title="Type notes here"></textarea>
+            <div>
             <button id="save-note">Save Note</button>
+            <button id="lock-note"><img id="lock-icon" src="icons/icons8-lock-24.png" alt="Lock Icon" title="Lock Note"></img></button>
+            <!--<a target="_blank" href="https://icons8.com/icon/83187/lock">Lock</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>-->
+            <!--button id= choose-note-color>Choose Color</button-->
+            <!--input type="color" id="note-color" value="#ffffff" title="Choose note color"--><!--/input-->
+            </div>
+            <input type="text" id="search" placeholder="Search notes..." title="Search notes"></input>
             <div id="notes-container"></div>
         </div>
         <!-- Note Modal -->
@@ -23,6 +30,7 @@
                 <p id="modal-content"></p>
             </div>
          </div>
+        <h6>ThinkBox Notes</h6>
         <script src="main.js"></script>
     </body>
 </html>

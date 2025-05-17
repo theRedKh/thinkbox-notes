@@ -27,6 +27,9 @@ function saveNote() {
     if (titleInput.value === "" || contentInput.value === "") {
         alert("Please enter a title for the note."); // Alert if title is empty
         return;
+    } else if (notes.some(note => note.title === titleInput.value)) {
+        alert("Note with this title already exists."); // Alert if note with same title exists
+        return;
     }
     const newNote = {
         title: titleInput.value,
@@ -56,6 +59,29 @@ function editNote(index){
 
 }
 
+function searchNotes() {
+    const searchInput = document.getElementById("search").value.toLowerCase(); // Get the search input
+    const notes = JSON.parse(localStorage.getItem('notes')) || []; // Load existing notes to array
+    notesContainer.innerHTML = ""; // Clear the notes container to display filtered notes
+    notes.forEach((note, originalIndex) => {
+        if (note.title.toLowerCase().includes(searchInput) || 
+        note.content.toLowerCase().includes(searchInput)) {
+
+            const noteEl = document.createElement("div");
+            noteEl.classList.add('note');
+            noteEl.innerHTML = `
+                <div class="note-header">
+                    <h3 class="note-title" title="View Note" onclick="viewNote(${originalIndex})">${note.title}</h3>
+                    <button title="Edit" onclick="editNote(${originalIndex})">Edit</button>
+                    <button title="Delete" onclick="deleteNote(${originalIndex})">Delete</button>
+                </div>
+                <p>${note.content}</p>
+            `;
+            notesContainer.appendChild(noteEl); // Append each filtered note to the container
+        }
+    });
+}
+
 //View note as a modal
 function viewNote(index) {
     const notes = JSON.parse(localStorage.getItem('notes')) || []; // Load existing notes
@@ -81,5 +107,8 @@ function viewNote(index) {
     };
 }
 
+
+
 saveBtn.addEventListener("click", saveNote); // Add event listener to the save button
 window.addEventListener("DOMContentLoaded", loadNotes); // Load notes when the page is loaded
+document.getElementById("search").addEventListener("input", searchNotes); // Add event listener to the search input

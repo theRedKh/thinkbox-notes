@@ -1,3 +1,9 @@
+@property --fields{
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #f3ece1;
+}
+
 body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
@@ -9,7 +15,7 @@ h1 {
 }
 .main-container {
     max-width: 600px;
-    height: 400px;
+    height: 600px;
     background-color: rgb(229, 226, 226);
     margin: auto;
     align-items: center;
@@ -17,7 +23,7 @@ h1 {
     justify-content: center;
     border-radius: 10px;
     object-fit: contain;
-    overflow: auto;
+    overflow:inherit;
 }
 
 input, textarea {
@@ -25,6 +31,22 @@ input, textarea {
     width: 100%;
     margin-bottom: 10px;
     padding: 10px;
+    border-width: 0.2px;
+    border-radius: 5px;
+    background-color: var(--fields);
+    transition: border-width 0.8s ease, border-color 0.8s ease, background-color 0.8s ease;
+    
+}
+textarea {
+    max-height: 300px;
+    overflow: auto;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    background-color: #f7f0f0;
+    border: 0.2px solid #bbb;
 }
 
 #note-content {
@@ -35,7 +57,7 @@ input, textarea {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-height: 150px;
+    max-height: 300px;
     margin-top: 20px;
     padding: 10px;
     overflow-y: auto;
@@ -103,6 +125,16 @@ input, textarea {
     cursor: pointer;
 }
 
+
 button {
     cursor: pointer;
+    padding: 8px;
+    border: 0.2px solid rgb(222, 200, 200);
+    border-radius: 8px;
+    background-color: #f8e6c9;
+    height: 40px;
+}
+
+#search {
+    margin-top: 10px;
 }
