@@ -76,7 +76,14 @@ export default function NotesList({ notes, setNotes, onEdit }) {
           <li key={index} className={styles.noteItem}>
             <div className={styles.noteText}>
               <strong>{highlightMatch(note.title)}</strong>
-              <p>{highlightMatch(note.content)}</p>
+              <p>
+                {highlightMatch(
+                    note.content.length > 15
+                    ? note.content.slice(0, 15) + "…"
+                    : note.content
+                )}
+                </p>
+
             </div>
             <div className={styles.noteIcons}>
               <span
