@@ -1,0 +1,96 @@
+.notesListContainer {
+  width: 200px; /* fixed width for the whole panel */
+  flex: 0 0 200px; /* prevent flex from growing */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fafafa;
+  border-left: 1px solid #ddd;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tabs button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.tabs button:hover {
+  background-color: #d0d0d0;
+}
+
+.tabs input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.activeTab {
+  background-color: #d0ebff;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.noteItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: background 0.2s ease;
+}
+
+.noteItem:hover {
+  background-color: #f0f0f0;
+}
+
+.noteText {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.noteText p {
+  margin: 2px 0 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.noteIcons {
+  display: flex;
+  gap: 6px;
+}
+
+.noteIcons .material-icons {
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.noteIcons .material-icons:hover {
+  color: #4d90ff;
+}
+
+.highlight {
+  background-color: #fff176; /* yellow highlight */
+}
