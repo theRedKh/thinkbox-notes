@@ -32,6 +32,10 @@
   align-items: center;
 }
 
+.list li:hover {
+  background-color: #e0e0e0;
+}
+
 .icons {
   display: flex;
   gap: 6px;
@@ -121,8 +125,6 @@
   pointer-events: none;
 }
 
-/* …previous styles remain unchanged… */
-
 /* New folder animation */
 .newFolder {
   opacity: 0;
@@ -135,4 +137,14 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+/* Hover & selected folder */
+.list li:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #d0ebff; /* light blue highlight */
+  font-weight: 600;
 }

@@ -5,8 +5,9 @@ export default function Sidebar() {
   const [folders, setFolders] = useState(["Work", "Personal", "Ideas"]);
   const [addingFolder, setAddingFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
-  const [editingFolder, setEditingFolder] = useState(null); // folder currently being renamed
+  const [editingFolder, setEditingFolder] = useState(null);
   const [renameValue, setRenameValue] = useState("");
+  const [selectedFolder, setSelectedFolder] = useState("All"); // default selected
 
   const handleAddFolder = () => {
     if (newFolderName.trim() && !folders.includes(newFolderName.trim())) {
@@ -18,6 +19,7 @@ export default function Sidebar() {
 
   const handleDeleteFolder = (folderName) => {
     setFolders(folders.filter((f) => f !== folderName));
+    if (selectedFolder === folderName) setSelectedFolder("All");
   };
 
   const handleRenameFolder = (folderName) => {
@@ -31,6 +33,7 @@ export default function Sidebar() {
         setFolders(
           folders.map((f) => (f === editingFolder ? renameValue.trim() : f))
         );
+        if (selectedFolder === editingFolder) setSelectedFolder(renameValue.trim());
       }
       setEditingFolder(null);
       setRenameValue("");
@@ -54,16 +57,28 @@ export default function Sidebar() {
       {/* Main categories */}
       <h3 className={styles.sectionTitle}>Categories</h3>
       <ul className={styles.list}>
-        <li>All</li>
-        <li>Favorites</li>
-        <li>Trash</li>
+        {["All", "Favorites", "Trash"].map((cat) => (
+          <li
+            key={cat}
+            className={`${selectedFolder === cat ? styles.selected : ""}`}
+            onClick={() => setSelectedFolder(cat)}
+          >
+            {cat}
+          </li>
+        ))}
       </ul>
 
       {/* Folders section */}
       <h3 className={styles.sectionTitle}>Folders</h3>
       <ul className={styles.list}>
         {folders.map((folder, index) => (
-          <li key={folder + index} className={styles.newFolder}>
+          <li
+            key={folder + index}
+            className={`${styles.newFolder} ${
+              selectedFolder === folder ? styles.selected : ""
+            }`}
+            onClick={() => setSelectedFolder(folder)}
+          >
             {editingFolder === folder ? (
               <input
                 className={styles.folderRenameInput}
@@ -79,13 +94,19 @@ export default function Sidebar() {
               <div className={styles.icons}>
                 <span
                   className={`material-icons ${styles.renameIcon}`}
-                  onClick={() => handleRenameFolder(folder)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent selecting folder
+                    handleRenameFolder(folder);
+                  }}
                 >
                   edit
                 </span>
                 <span
                   className={`material-icons ${styles.trashIcon}`}
-                  onClick={() => handleDeleteFolder(folder)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent selecting folder
+                    handleDeleteFolder(folder);
+                  }}
                 >
                   delete
                 </span>
