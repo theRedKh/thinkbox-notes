@@ -13,3 +13,9 @@
 body {
   background-color: var(--main-bg);
 }
+
+.app-container {
+  display: flex;
+  background: #f9f9f9;
+  overflow: hidden;
+}
