@@ -1,6 +1,6 @@
 .container {
     position: absolute;       /* float inside NoteForm */
-    bottom: 20px;             /* distance from bottom */
+    bottom: 10px;             /* distance from bottom */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1100;
@@ -10,4 +10,19 @@
     display: flex;
     gap: 8px;
 
+    box-shadow: 0 3px 5px rgb(126, 125, 125);
+
+}
+
+.btn {
+    font-family: "Work Sans";
+    font-size: 16px;
+}
+
+b {
+    font-weight: 600;
+}
+
+em {
+    font-family: serif;
 }
