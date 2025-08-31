@@ -1,4 +1,5 @@
-import styles from "./NoteForm.module.css"
+import styles from "./NoteForm.module.css";
+
 export default function NoteForm() {
     return (
         <div className={styles.container}>
