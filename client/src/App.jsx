@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <h1>Good Morning, User</h1>
+      
       <Toolbar/>
       <NoteForm/>
     </>

@@ -1,4 +1,13 @@
 .container {
+    position: absolute;       /* float inside NoteForm */
+    bottom: 20px;             /* distance from bottom */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1100;
     background-color: aliceblue;
+    padding: 8px 12px;
+    border-radius: 12px;
+    display: flex;
+    gap: 8px;
+
 }
