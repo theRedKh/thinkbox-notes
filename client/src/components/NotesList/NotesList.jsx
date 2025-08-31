@@ -54,13 +54,13 @@ export default function NotesList() {
           + New Note
         </button>
         <input
-          type="text"
-          placeholder="Search notes..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className={activeTab === "search" ? styles.activeTab : ""}
-          onFocus={() => setActiveTab("search")}
+            type="text"
+            placeholder="Search notes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setActiveTab("search")}
         />
+
       </div>
 
       {/* Notes List */}
