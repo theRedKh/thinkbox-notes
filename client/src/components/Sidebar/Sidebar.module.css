@@ -21,6 +21,7 @@
   margin: 0;
 }
 
+
 .list li {
   padding: 7px 0;
   cursor: pointer;
@@ -31,12 +32,12 @@
   align-items: center;
 }
 
-.list li:hover {
-  background-color: #e0e0e0;
+.icons {
+  display: flex;
+  gap: 6px;
 }
 
-
-.trashIcon {
+.trashIcon, .renameIcon {
   font-size: 18px;
   color: #888;
   cursor: pointer;
@@ -45,6 +46,25 @@
 
 .trashIcon:hover {
   color: #ff4d4d;
+}
+
+.renameIcon:hover {
+  color: #4d90ff;
+}
+
+/* Rename input */
+.folderRenameInput {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.folderRenameInput:focus {
+  border-color: #4d90ff;
+  background-color: #fff;
 }
 
 /* Folder Input Wrapper (slide/fade) */
