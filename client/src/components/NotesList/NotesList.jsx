@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styles from "./NotesList.module.css";
 
-export default function NotesList({ notes, setNotes, onEdit }) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes, onEdit }) {
   const [activeTab, setActiveTab] = useState("new"); // "new" or "search"
 
   const handleAddNote = () => {
