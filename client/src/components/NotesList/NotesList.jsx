@@ -1,24 +1,32 @@
 import { useState } from "react";
 import styles from "./NotesList.module.css";
 
-export default function NotesList() {
-  const [notes, setNotes] = useState([
-    { title: "First Note", content: "Content of first note", locked: false },
-    { title: "Shopping List", content: "Eggs, Milk, Bread", locked: true },
-    { title: "Ideas", content: "React app for students", locked: false },
-  ]);
-
+export default function NotesList({ notes, setNotes, onEdit }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("new"); // "new" or "search"
 
   const handleAddNote = () => {
-    const newNote = { title: "Untitled Note", content: "", locked: false };
+    const newNote = {
+      title: "Untitled Note",
+      content: "",
+      locked: false,
+      created: new Date(),
+    };
     setNotes([newNote, ...notes]);
-    setActiveTab("search"); // switch to search/edit view after adding
+    onEdit(0); // open the new note in the editor
+    setActiveTab("search"); 
   };
 
   const handleDeleteNote = (index) => {
     setNotes(notes.filter((_, i) => i !== index));
+  };
+
+  const toggleLock = (index) => {
+    setNotes((prev) => {
+      const copy = [...prev];
+      copy[index].locked = !copy[index].locked;
+      return copy;
+    });
   };
 
   // Highlights matching text
@@ -54,13 +62,12 @@ export default function NotesList() {
           + New Note
         </button>
         <input
-            type="text"
-            placeholder="Search notes..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setActiveTab("search")}
+          type="text"
+          placeholder="Search notes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => setActiveTab("search")}
         />
-
       </div>
 
       {/* Notes List */}
@@ -72,10 +79,18 @@ export default function NotesList() {
               <p>{highlightMatch(note.content)}</p>
             </div>
             <div className={styles.noteIcons}>
-              <span className="material-icons" title="Lock">
+              <span
+                className="material-icons"
+                title={note.locked ? "Unlock" : "Lock"}
+                onClick={() => toggleLock(index)}
+              >
                 {note.locked ? "lock" : "lock_open"}
               </span>
-              <span className="material-icons" title="Edit">
+              <span
+                className="material-icons"
+                title="Edit"
+                onClick={() => onEdit(index)}
+              >
                 edit
               </span>
               <span
