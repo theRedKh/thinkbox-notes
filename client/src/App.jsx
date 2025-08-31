@@ -4,6 +4,7 @@ import NoteForm from './components/NoteForm/NoteForm';
 import Toolbar from './components/Toolbar/Toolbar';
 import NotesList from './components/NotesList/NotesList';
 import Sidebar from './components/Sidebar/Sidebar';
+
 function App() {
   const [notes, setNotes] = useState([
     { title: "First Note", content: "Content of first note", locked: false, created: new Date() },
@@ -12,20 +13,25 @@ function App() {
   ]);
 
   const [currentNoteIndex, setCurrentNoteIndex] = useState(null); // null = no note selected
-
+  const [searchQuery, setSearchQuery] = useState(""); // <-- add this
 
   return (
     <div className='app-container' style={{ display: 'flex' }}>
       <Sidebar/>
+      
       <NotesList
         notes={notes}
         setNotes={setNotes}
+        searchQuery={searchQuery}           // pass down
+        setSearchQuery={setSearchQuery}     // pass setter too
         onEdit={(index) => setCurrentNoteIndex(index)}
       />
+
       <NoteForm
         note={currentNoteIndex !== null ? notes[currentNoteIndex] : null}
         setNotes={setNotes}
         noteIndex={currentNoteIndex}
+        searchQuery={searchQuery}           // pass down for highlighting
       />
     </div>
   )
