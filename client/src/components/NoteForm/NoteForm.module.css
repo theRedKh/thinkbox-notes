@@ -14,6 +14,10 @@
     font-family: "Work Sans";
     font-size: 2rem;
     text-align: center;
+    font-weight: 600;
+}
+.title::placeholder {
+    font-weight: 600;
 }
 
 .title:focus::placeholder {
@@ -25,13 +29,16 @@
     outline: none;
     border: 2px solid transparent;
     align-items: center;
-    font-family: "Work Sans";
     position: relative;
     padding: 5px;
     margin: 5px;
     width: 100%;
     resize: none;
     height: fit-content;
+
+    font-size: 1rem;
+    font-family: "Work Sans";
+    font-weight: 400;
 }
 
 .noteArea:focus::placeholder {
