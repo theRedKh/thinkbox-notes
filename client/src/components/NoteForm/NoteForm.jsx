@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./NoteForm.module.css";
+import Toolbar from "../Toolbar/Toolbar";
 
 export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     if (note) {
@@ -37,7 +39,6 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
     }
   };
 
-  // Highlight search matches in editor
   const highlightMatch = (text) => {
     if (!searchQuery) return text;
     const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -70,19 +71,24 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
             minute: "2-digit",
           })}
       </p>
-      <textarea
-        className={styles.noteArea}
-        placeholder="What's on your mind..."
-        value={content}
-        onChange={handleContentChange}
-      />
-      {/* Optional: live preview with highlights */}
-      {searchQuery && (
-        <div className={styles.preview}>
-          <strong>{highlightMatch(title)}</strong>
-          <p>{highlightMatch(content)}</p>
+
+      <div className={styles.editorWrapper}>
+        {/* Highlighted overlay */}
+        <div className={styles.highlightedContent}>
+          <pre>{highlightMatch(content)}</pre>
         </div>
-      )}
+
+        {/* Actual textarea */}
+        <textarea
+          ref={textareaRef}
+          className={styles.noteArea}
+          placeholder="What's on your mind..."
+          value={content}
+          onChange={handleContentChange}
+        />
+
+        <Toolbar/>
+      </div>
     </div>
   );
 }
