@@ -1,0 +1,40 @@
+.container {
+    background-color: hsla(0, 0%, 100%, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400dvh;
+    min-height: 80dvh;
+}
+
+.title {
+    outline: none;
+    border: 2px solid transparent;
+    width: 400px;
+    font-family: "Work Sans";
+    font-size: 2rem;
+    text-align: center;
+}
+
+.title:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.noteArea {
+    outline: none;
+    border: 2px solid transparent;
+    align-items: center;
+    font-family: "Work Sans";
+    position: relative;
+    padding: 5px;
+    margin: 5px;
+    width: 100%;
+    resize: none;
+    height: fit-content;
+}
+
+.noteArea:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
