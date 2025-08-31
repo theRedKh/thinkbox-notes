@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./NoteForm.module.css";
-import Toolbar from "../Toolbar/Toolbar";
 
-export default function NoteForm({ note, setNotes, noteIndex }) {
+export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -38,6 +37,21 @@ export default function NoteForm({ note, setNotes, noteIndex }) {
     }
   };
 
+  // Highlight search matches in editor
+  const highlightMatch = (text) => {
+    if (!searchQuery) return text;
+    const regex = new RegExp(`(${searchQuery})`, "gi");
+    return text.split(regex).map((part, i) =>
+      regex.test(part) ? (
+        <mark key={i} className={styles.highlight}>
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div className={styles.container}>
       <input
@@ -47,13 +61,14 @@ export default function NoteForm({ note, setNotes, noteIndex }) {
         onChange={handleTitleChange}
       />
       <p className={styles.dateTime}>
-        {note && note.created.toLocaleString("en-US", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-        })}
+        {note &&
+          note.created.toLocaleString("en-US", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+          })}
       </p>
       <textarea
         className={styles.noteArea}
@@ -61,7 +76,13 @@ export default function NoteForm({ note, setNotes, noteIndex }) {
         value={content}
         onChange={handleContentChange}
       />
-      <Toolbar/>
+      {/* Optional: live preview with highlights */}
+      {searchQuery && (
+        <div className={styles.preview}>
+          <strong>{highlightMatch(title)}</strong>
+          <p>{highlightMatch(content)}</p>
+        </div>
+      )}
     </div>
   );
 }
