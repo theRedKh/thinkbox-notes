@@ -1,31 +1,67 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./NoteForm.module.css";
 import Toolbar from "../Toolbar/Toolbar";
 
-export default function NoteForm() {
-    const [dateTime, setDateTime] = useState("");
+export default function NoteForm({ note, setNotes, noteIndex }) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
-    useEffect(() => {
-        const now= new Date();
-        const day = now.getDate();
-        const month = now.toLocaleString("en-US", { month: "long" });
-        const year = now.getFullYear();
-        const time = now.toLocaleString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-        });
+  useEffect(() => {
+    if (note) {
+      setTitle(note.title);
+      setContent(note.content);
+    } else {
+      setTitle("");
+      setContent("");
+    }
+  }, [note]);
 
-        const formatted = `${day} ${month}, ${year} at ${time}`;
-        setDateTime(formatted);
-    }, []);
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+    if (noteIndex !== null) {
+      setNotes((prev) => {
+        const copy = [...prev];
+        copy[noteIndex].title = e.target.value;
+        return copy;
+      });
+    }
+  };
 
-    return (
-        <div className={styles.container}>
-            <input placeholder="Title" className={styles.title}/>
-            <p className={styles.dateTime}>{dateTime}</p>
-            <textarea className={styles.noteArea} placeholder="What's on your mind..."></textarea>
-             <Toolbar/>
-        </div>
-    );
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+    if (noteIndex !== null) {
+      setNotes((prev) => {
+        const copy = [...prev];
+        copy[noteIndex].content = e.target.value;
+        return copy;
+      });
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <input
+        placeholder="Title"
+        className={styles.title}
+        value={title}
+        onChange={handleTitleChange}
+      />
+      <p className={styles.dateTime}>
+        {note && note.created.toLocaleString("en-US", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+        })}
+      </p>
+      <textarea
+        className={styles.noteArea}
+        placeholder="What's on your mind..."
+        value={content}
+        onChange={handleContentChange}
+      />
+      <Toolbar/>
+    </div>
+  );
 }
