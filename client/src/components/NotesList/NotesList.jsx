@@ -23,7 +23,7 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
   const toggleLock = (index) => {
     setNotes((prev) => {
       const copy = [...prev];
-      copy[index] = { ...copy[index], locked: !copy[index].locked }; // ✅ new object
+      copy[index] = { ...copy[index], locked: !copy[index].locked }; // toggle locked
       return copy;
     });
   };
@@ -43,22 +43,13 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
     );
   };
 
-  // Filter notes by search
-  const filteredNotes = notes.filter(
-    (note) =>
-      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Smart truncation
-  const smartTruncate = (text) => {
-    const maxLength = 15;
+  // Smart truncation for title and content
+  const smartTruncate = (text, maxLength = 15) => {
     if (!searchQuery) {
       return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
     }
     const index = text.toLowerCase().indexOf(searchQuery.toLowerCase());
     if (index === -1) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
-    // Show snippet around match
     const start = Math.max(index - 7, 0);
     const end = Math.min(index + searchQuery.length + 7, text.length);
     let snippet = text.slice(start, end);
@@ -66,6 +57,13 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
     if (end < text.length) snippet = snippet + "…";
     return snippet;
   };
+
+  // Filter notes by search
+  const filteredNotes = notes.filter(
+    (note) =>
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className={styles.notesListContainer}>
@@ -91,7 +89,7 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
         {filteredNotes.map((note, index) => (
           <li key={index} className={styles.noteItem}>
             <div className={styles.noteText}>
-              <strong>{highlightMatch(note.title)}</strong>
+              <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
               <p>{highlightMatch(smartTruncate(note.content))}</p>
             </div>
             <div className={styles.noteIcons}>
