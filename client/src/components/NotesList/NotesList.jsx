@@ -23,15 +23,18 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
   const toggleLock = (index) => {
     setNotes((prev) => {
       const copy = [...prev];
-      copy[index].locked = !copy[index].locked;
+      copy[index] = { ...copy[index], locked: !copy[index].locked }; // ✅ new object
       return copy;
     });
   };
 
+  // ✅ Escape regex special characters in search query
+  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
   // Highlights matching text
   const highlightMatch = (text) => {
     if (!searchQuery) return text;
-    const regex = new RegExp(`(${searchQuery})`, "gi");
+    const regex = new RegExp(`(${escapeRegex(searchQuery)})`, "gi");
     return text.split(regex).map((part, i) =>
       regex.test(part) ? (
         <mark key={i} className={styles.highlight}>
@@ -77,12 +80,11 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
               <strong>{highlightMatch(note.title)}</strong>
               <p>
                 {highlightMatch(
-                    note.content.length > 15
+                  note.content.length > 15
                     ? note.content.slice(0, 15) + "…"
                     : note.content
                 )}
-                </p>
-
+              </p>
             </div>
             <div className={styles.noteIcons}>
               <span

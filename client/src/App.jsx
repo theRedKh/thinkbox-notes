@@ -13,7 +13,7 @@ function App() {
   ]);
 
   const [currentNoteIndex, setCurrentNoteIndex] = useState(null); // null = no note selected
-  const [searchQuery, setSearchQuery] = useState(""); // <-- add this
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   return (
     <div className='app-container' style={{ display: 'flex' }}>
