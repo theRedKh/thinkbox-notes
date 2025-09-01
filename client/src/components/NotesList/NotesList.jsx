@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./NotesList.module.css";
 
 export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes, onEdit }) {
-  const [activeTab, setActiveTab] = useState("new"); // "new" or "search"
+  const [activeTab, setActiveTab] = useState("new");
+  const listRef = useRef(null); // ref to the notes list
 
   const handleAddNote = () => {
     const newNote = {
@@ -12,8 +13,8 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
       created: new Date(),
     };
     setNotes([newNote, ...notes]);
-    onEdit(0); // open the new note in the editor
-    setActiveTab("search"); 
+    onEdit(0);
+    setActiveTab("search"); // switch to search/edit view
   };
 
   const handleDeleteNote = (index) => {
@@ -23,31 +24,14 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
   const toggleLock = (index) => {
     setNotes((prev) => {
       const copy = [...prev];
-      copy[index] = { ...copy[index], locked: !copy[index].locked }; // toggle locked
+      copy[index] = { ...copy[index], locked: !copy[index].locked };
       return copy;
     });
   };
 
-  // Highlights matching text
-  const highlightMatch = (text) => {
-    if (!searchQuery) return text;
-    const regex = new RegExp(`(${searchQuery})`, "gi");
-    return text.split(regex).map((part, i) =>
-      regex.test(part) ? (
-        <mark key={i} className={styles.highlight}>
-          {part}
-        </mark>
-      ) : (
-        part
-      )
-    );
-  };
-
-  // Smart truncation for title and content
+  // Truncate title/content smartly
   const smartTruncate = (text, maxLength = 15) => {
-    if (!searchQuery) {
-      return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
-    }
+    if (!searchQuery) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
     const index = text.toLowerCase().indexOf(searchQuery.toLowerCase());
     if (index === -1) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
     const start = Math.max(index - 7, 0);
@@ -58,12 +42,35 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
     return snippet;
   };
 
+  // Highlight search matches
+  const highlightMatch = (text) => {
+    if (!searchQuery) return text;
+    const regex = new RegExp(`(${searchQuery})`, "gi");
+    return text.split(regex).map((part, i) =>
+      regex.test(part) ? (
+        <mark key={i} className={styles.highlight}>{part}</mark>
+      ) : (
+        part
+      )
+    );
+  };
+
   // Filter notes by search
   const filteredNotes = notes.filter(
     (note) =>
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       note.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Scroll to top when a new note is added
+  useEffect(() => {
+    if (listRef.current && activeTab === "search") {
+      listRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [notes, activeTab]);
 
   return (
     <div className={styles.notesListContainer}>
@@ -85,12 +92,12 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
       </div>
 
       {/* Notes List */}
-      <ul className={styles.list}>
+      <ul className={styles.list} ref={listRef}>
         {filteredNotes.map((note, index) => (
           <li key={index} className={styles.noteItem}>
             <div className={styles.noteText}>
-              <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
-              <p>{highlightMatch(smartTruncate(note.content))}</p>
+              <strong>{highlightMatch(smartTruncate(note.title, 18))}</strong>
+              <p>{highlightMatch(smartTruncate(note.content, 15))}</p>
             </div>
             <div className={styles.noteIcons}>
               <span
