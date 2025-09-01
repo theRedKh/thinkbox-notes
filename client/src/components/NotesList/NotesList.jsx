@@ -28,13 +28,10 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
     });
   };
 
-  // ✅ Escape regex special characters in search query
-  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
   // Highlights matching text
   const highlightMatch = (text) => {
     if (!searchQuery) return text;
-    const regex = new RegExp(`(${escapeRegex(searchQuery)})`, "gi");
+    const regex = new RegExp(`(${searchQuery})`, "gi");
     return text.split(regex).map((part, i) =>
       regex.test(part) ? (
         <mark key={i} className={styles.highlight}>
@@ -52,6 +49,23 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
       note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       note.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Smart truncation
+  const smartTruncate = (text) => {
+    const maxLength = 15;
+    if (!searchQuery) {
+      return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
+    }
+    const index = text.toLowerCase().indexOf(searchQuery.toLowerCase());
+    if (index === -1) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
+    // Show snippet around match
+    const start = Math.max(index - 7, 0);
+    const end = Math.min(index + searchQuery.length + 7, text.length);
+    let snippet = text.slice(start, end);
+    if (start > 0) snippet = "…" + snippet;
+    if (end < text.length) snippet = snippet + "…";
+    return snippet;
+  };
 
   return (
     <div className={styles.notesListContainer}>
@@ -78,13 +92,7 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
           <li key={index} className={styles.noteItem}>
             <div className={styles.noteText}>
               <strong>{highlightMatch(note.title)}</strong>
-              <p>
-                {highlightMatch(
-                  note.content.length > 15
-                    ? note.content.slice(0, 15) + "…"
-                    : note.content
-                )}
-              </p>
+              <p>{highlightMatch(smartTruncate(note.content))}</p>
             </div>
             <div className={styles.noteIcons}>
               <span
