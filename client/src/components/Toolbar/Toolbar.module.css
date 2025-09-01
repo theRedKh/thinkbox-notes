@@ -4,11 +4,11 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 1100;
-    background-color: aliceblue;
+    background-color: rgb(246, 242, 242);
     padding: 8px 12px;
     border-radius: 12px;
     display: flex;
-    gap: 8px;
+    gap: 5px;
 
     box-shadow: 0 3px 5px rgb(126, 125, 125);
 
@@ -17,6 +17,37 @@
 .btn {
     font-family: "Work Sans";
     font-size: 16px;
+    
+    background: transparent;
+    outline: none;
+    border: transparent;
+    border-radius: 6px;
+    padding: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: rgb(203, 199, 199);
+    cursor: pointer;
+    
+}
+
+.saveBtn {
+    font-family: "Work Sans", sans-serif;
+    font-size: 16px;
+
+    background-color: rgb(195, 206, 251);
+    outline: none;
+    border: transparent;
+    border-radius: 6px;
+    padding: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.saveBtn:hover {
+    background-color: rgb(150, 150, 250);
+    cursor: pointer;
+    
 }
 
 b {

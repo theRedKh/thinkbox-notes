@@ -11,7 +11,7 @@ export default function Toolbar({ onSave }){
             <button className={styles.btn}>Font</button>
             {/* Save */}
             <button 
-                className={styles.btn}
+                className={styles.saveBtn}
                 onClick={onSave}
             >
                 Save
