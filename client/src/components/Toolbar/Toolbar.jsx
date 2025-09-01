@@ -1,6 +1,6 @@
 import styles from "./Toolbar.module.css";
 
-export default function Toolbar(){
+export default function Toolbar({ onBold, onItalic, onUnderline, onBulletn, onNumbered, onFont, onSave }){
     return(
         <div className={styles.container}>
             <button className={styles.btn}><b>B</b></button>
@@ -9,6 +9,13 @@ export default function Toolbar(){
             <button className={styles.btn}>List Bullets</button>
             <button className={styles.btn}>List Numerical</button>
             <button className={styles.btn}>Font</button>
+            {/* Save */}
+            <button 
+                className={styles.saveBtn}
+                onClick={onSave}
+            >
+                Save
+            </button>
         </div>
     );
 }
