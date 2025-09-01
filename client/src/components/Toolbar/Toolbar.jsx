@@ -1,6 +1,6 @@
 import styles from "./Toolbar.module.css";
 
-export default function Toolbar({ onSave }){
+export default function Toolbar({ onBold, onItalic, onUnderline, onBulletn, onNumbered, onFont, onSave }){
     return(
         <div className={styles.container}>
             <button className={styles.btn}><b>B</b></button>
