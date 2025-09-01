@@ -65,6 +65,7 @@
   margin: 0;
   overflow-y: auto;
   flex: 1;
+  max-height: calc(95dvh - 50px);
 }
 
 /* Individual note item */
