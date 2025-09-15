@@ -178,14 +178,16 @@ export default function NotesList() {
                 className="material-icons"
                 title={note.locked ? "Unlock" : "Lock"}
                 onClick={() => toggleLock(index)}
-              >
+              
+                  onClick={() => toggleLock(index)}>
                     {note.locked ? "lock" : "lock_open"}
                   </span>
                   <span
                 className="material-icons"
                 title="Edit"
                 onClick={() => onEdit(index)}
-              >
+              
+                  onClick={() => onEdit(index)}>
                     edit
                   </span>
                   <span
