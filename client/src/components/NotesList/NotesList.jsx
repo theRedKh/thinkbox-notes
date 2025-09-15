@@ -211,16 +211,15 @@ export default function NotesList() {
 
       {/* RESIZER + Hide tab */}
       <div className={styles.resizer} onMouseDown={startResize}>
-        <div
+        
+      </div>
+      <div
           className={styles.hideTab}
           onClick={() => setIsHidden((s) => !s)}
           title={isHidden ? "Show Notes" : "Hide Notes"}
         >
-          <span className="material-icons">
-            {isHidden ? "chevron_right" : "chevron_left"}
-          </span>
+          {isHidden ? "→" : "←"} {/* simple text arrows */}
         </div>
-      </div>
     </div>
   );
 }
