@@ -1,32 +1,57 @@
 .notesListContainer {
-  width: 200px;          /* fixed width for the whole panel */
-  flex: 0 0 200px;       /* prevent flex from growing */
+  position: relative;
+  width: 250px;
+  flex: 0 0 auto;
   padding: 10px;
   display: flex;
   flex-direction: column;
   background-color: #fafafa;
   border-left: 1px solid #ddd;
   box-sizing: border-box;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+/* controls (fullscreen button inside container, top right) */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+}
+
+.controls button {
+  border: none;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.controls button:hover {
+  background: #d0d0d0;
 }
 
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 4px;              /* smaller gap to fit */
+  gap: 4px;
   margin-bottom: 12px;
-  width: 100%;            /* ensure it stays inside container */
+  width: 100%;
   flex-shrink: 0;
-  box-sizing: border-box; /* include padding in width */
+  box-sizing: border-box;
 }
 
 .tabs button {
-  flex: 0 0 60px;         /* fixed width for button */
+  flex: 0 0 60px;
   padding: 4px 6px;
   border: none;
   border-radius: 6px;
   background-color: #e0e0e0;
-  cursor: pointer;        /* disable text cursor */
-  user-select: none;      /* prevent accidental selection */
+  cursor: pointer;
+  user-select: none;
   font-weight: 600;
   font-size: 0.85rem;
   transition: background 0.2s ease;
@@ -37,19 +62,19 @@
 }
 
 .tabs input {
-  flex: 1;                 /* take remaining space */
-  min-width: 0;            /* prevent overflow */
+  flex: 1;
+  min-width: 0;
   padding: 4px 6px;
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
   font-size: 0.85rem;
-  box-sizing: border-box;  /* ensure it fits inside */
-  user-select: none;       /* prevent accidental selection */
+  box-sizing: border-box;
+  user-select: none;
 }
 
 .tabs input:focus {
-  background-color: #d0ebff; /* highlight on focus only */
+  background-color: #d0ebff;
   border-color: #4d90ff;
   transition: all 0.3s ease;
 }
@@ -63,6 +88,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-right: 12px;
   overflow-y: auto;
   flex: 1;
   max-height: calc(95dvh - 50px);
@@ -101,14 +127,14 @@
 .noteIcons {
   display: flex;
   gap: 6px;
-  user-select: none;      /* prevent accidental selection */
+  user-select: none;
 }
 
 /* Material Icons (global) inside noteIcons */
 .noteIcons :global(.material-icons) {
   font-size: 18px;
   color: #888;
-  cursor: pointer;        /* pointer cursor */
+  cursor: pointer;
   user-select: none;
   transition: color 0.2s ease;
 }
@@ -119,5 +145,61 @@
 
 /* Highlight search matches */
 .highlight {
-  background-color: #fff176; /* yellow highlight */
+  background-color: #fff176;
+}
+
+/* Fullscreen active mode */
+.fullscreen {
+  position: relative;
+  z-index: 10;
+  width: 100% !important; /* take full width when fullscreen */
+  border-left: none;
+}
+
+/* Resizer */
+.resizer {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 20;
+  background: transparent;
+}
+
+/* subtle hover/active feedback */
+.resizer:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.resizer:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Hide/Show tab (on top of resizer) */
+.hideTab,
+.hideTabVisible {
+  position: absolute;
+  top: 40%;
+  right: 0; /* sticks to the edge of the noteslist */
+  width: 20px;
+  height: 40px;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0 6px 6px 0;
+  z-index: 50; /* above everything */
+}
+
+.hideTab:hover,
+.hideTabVisible:hover {
+  background: #d0d0d0;
+}
+
+.hideTab .material-icons {
+  font-size: 18px;
+  color: #444;
 }
