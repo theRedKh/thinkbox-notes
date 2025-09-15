@@ -27,12 +27,19 @@ function App() {
         onEdit={(index) => setCurrentNoteIndex(index)}
       />
 
-      <NoteForm
-        note={currentNoteIndex !== null ? notes[currentNoteIndex] : null}
-        setNotes={setNotes}
-        noteIndex={currentNoteIndex}
-        searchQuery={searchQuery}           // pass down for highlighting
-      />
+      {currentNoteIndex !== null? (
+        <NoteForm
+          note={currentNoteIndex !== null ? notes[currentNoteIndex] : null}
+          setNotes={setNotes}
+          noteIndex={currentNoteIndex}
+          searchQuery={searchQuery}           // pass down for highlighting
+        />
+      ) : (
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", height: "95dvh"}}>
+          <p style={{ opacity: 0.6 }}>Click <strong>+ New Note</strong> or edit an existing one</p>
+        </div>
+      )
+      }
     </div>
   )
 }

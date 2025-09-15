@@ -6,17 +6,37 @@ import Toolbar from "../Toolbar/Toolbar";
 export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const textareaRef = useRef(null);
+  const editorRef = useRef(null);
 
   useEffect(() => {
     if (note) {
       setTitle(note.title);
       setContent(note.content);
+      if (editorRef.current) {
+        editorRef.current.innerHTML = note.content;
+      }
     } else {
       setTitle("");
       setContent("");
+      if (editorRef.current) editorRef.current.innerHTML = "";
     }
   }, [note]);
+
+  const handleSave = () => {
+    if (noteIndex !== null) {
+      setNotes(prev => {
+        const copy = [...prev];
+        copy[noteIndex] = { ...copy[noteIndex], title, content };
+        return copy;
+      });
+      alert("Note saved!");
+    }
+  };
+
+  const handleFormat = (command) => {
+    document.execCommand(command, false, null);
+    setContent(editorRef.current.innerHTML);
+  };
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -29,18 +49,17 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
     }
   };
 
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
+  const handleInput = () => {
+    setContent(editorRef.current.innerHTML);
     if (noteIndex !== null) {
       setNotes((prev) => {
         const copy = [...prev];
-        copy[noteIndex].content = e.target.value;
+        copy[noteIndex].content = editorRef.current.innerHTML;
         return copy;
       });
     }
   };
-
-  const highlightMatch = (text) => {
+   const highlightMatch = (text) => {
     if (!searchQuery) return text;
     const regex = new RegExp(`(${searchQuery})`, "gi");
     return text.split(regex).map((part, i) =>
@@ -56,6 +75,13 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
 
   return (
     <div className={styles.container}>
+      <Toolbar
+        onBold={() => handleFormat("bold")}
+        onItalic={() => handleFormat("italic")}
+        onUnderline={() => handleFormat("underline")}
+        onFont={() => alert("Font picker placeholder")}
+        onSave={handleSave}  
+      />
       <input
         placeholder="Title"
         className={styles.title}
@@ -145,4 +171,14 @@ export default function NoteForm() {
              
         </div>
     );
+      <div
+        ref={editorRef}
+        className={styles.noteArea}
+        contentEditable={true}
+        onInput={handleInput}
+        suppressContentEditableWarning={true}
+        placeholder="What's on your mind..."
+      />
+    </div>
+  );
 }
