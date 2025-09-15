@@ -4,7 +4,7 @@ import styles from "./NotesList.module.css";
 export default function NotesList() {
   const containerRef = useRef(null);
 
-  const [width, setWidth] = useState(250); // initial width
+  const [width, setWidth] = useState(250);
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -14,14 +14,13 @@ export default function NotesList() {
     setIsResizing(true);
   };
 
-  // update width while dragging (compute width relative to container left)
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (!isResizing || isFullscreen || isHidden) return;
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
-      const newWidth = e.clientX - rect.left; // mouse X relative to left of container
-      const clamped = Math.max(180, Math.min(newWidth, 600)); // min/max
+      const newWidth = e.clientX - rect.left;
+      const clamped = Math.max(180, Math.min(newWidth, 600));
       setWidth(clamped);
     };
 
@@ -35,7 +34,6 @@ export default function NotesList() {
     };
   }, [isResizing, isFullscreen, isHidden]);
 
-  // nice UX: change cursor + disable text selection while resizing
   useEffect(() => {
     if (isResizing) {
       document.body.style.cursor = "ew-resize";
@@ -50,7 +48,7 @@ export default function NotesList() {
     };
   }, [isResizing]);
 
-  // ---- demo notes state (kept your existing local state) ----
+  // dummy notes
   const [notes, setNotes] = useState([
     { title: "First Note", content: "Content of first note", locked: false },
     { title: "Shopping List", content: "Eggs, Milk, Bread", locked: true },
@@ -91,85 +89,90 @@ export default function NotesList() {
   );
 
   return (
-    <>
-      {/* Toolbar (you can move this inside the container if you prefer) */}
-      <div style={{ padding: 8 }}>
-        <button onClick={() => setIsHidden((s) => !s)}>
-          {isHidden ? "Show" : "Hide"}
-        </button>
-        <button onClick={() => setIsFullscreen((s) => !s)} style={{ marginLeft: 8 }}>
-          {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-        </button>
+    <div
+      ref={containerRef}
+      className={`${styles.notesListContainer} ${
+        isFullscreen ? styles.fullscreen : ""
+      }`}
+      style={{
+        width: isHidden ? "0px" : isFullscreen ? "100%" : `${width}px`,
+        flex: isFullscreen ? "1 1 auto" : "0 0 auto",
+        transition: isResizing ? "none" : "width 0.2s ease",
+      }}
+    >
+      {!isHidden && (
+        <>
+          {/* Header (fullscreen button here) */}
+          <div className={styles.header}>
+            <button
+              className={styles.fullscreenBtn}
+              onClick={() => setIsFullscreen((s) => !s)}
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              <span className="material-icons">
+                {isFullscreen ? "fullscreen_exit" : "fullscreen"}
+              </span>
+            </button>
+          </div>
+
+          {/* Tabs */}
+          <div className={styles.tabs}>
+            <button
+              className={activeTab === "new" ? styles.activeTab : ""}
+              onClick={handleAddNote}
+            >
+              + New Note
+            </button>
+            <input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setActiveTab("search")}
+            />
+          </div>
+
+          {/* Notes List */}
+          <ul className={styles.list}>
+            {filteredNotes.map((note, index) => (
+              <li key={index} className={styles.noteItem}>
+                <div className={styles.noteText}>
+                  <strong>{highlightMatch(note.title)}</strong>
+                  <p>{highlightMatch(note.content)}</p>
+                </div>
+                <div className={styles.noteIcons}>
+                  <span className="material-icons" title="Lock">
+                    {note.locked ? "lock" : "lock_open"}
+                  </span>
+                  <span className="material-icons" title="Edit">
+                    edit
+                  </span>
+                  <span
+                    className="material-icons"
+                    title="Delete"
+                    onClick={() => handleDeleteNote(index)}
+                  >
+                    delete
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {/* RESIZER + Hide tab */}
+      <div className={styles.resizer} onMouseDown={startResize}>
+        <div
+          className={styles.hideTab}
+          onClick={() => setIsHidden((s) => !s)}
+          title={isHidden ? "Show Notes" : "Hide Notes"}
+        >
+          <span className="material-icons">
+            {isHidden ? "chevron_right" : "chevron_left"}
+          </span>
+        </div>
       </div>
-
-      <div
-        ref={containerRef}
-        className={styles.notesListContainer}
-        style={{
-          width: isHidden ? "0px" : isFullscreen ? "100%" : `${width}px`,
-          flex: isFullscreen ? "1 1 auto" : "0 0 auto",
-          transition: isResizing ? "none" : "width 0.2s ease",
-        }}
-      >
-        {!isHidden && (
-          <>
-            {/* Tabs */}
-            <div className={styles.tabs}>
-              <button
-                className={activeTab === "new" ? styles.activeTab : ""}
-                onClick={handleAddNote}
-              >
-                + New Note
-              </button>
-              <input
-                type="text"
-                placeholder="Search notes..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setActiveTab("search")}
-              />
-            </div>
-
-            {/* Notes List */}
-            <ul className={styles.list}>
-              {filteredNotes.map((note, index) => (
-                <li key={index} className={styles.noteItem}>
-                  <div className={styles.noteText}>
-                    <strong>{highlightMatch(note.title)}</strong>
-                    <p>{highlightMatch(note.content)}</p>
-                  </div>
-                  <div className={styles.noteIcons}>
-                    <span className="material-icons" title="Lock">
-                      {note.locked ? "lock" : "lock_open"}
-                    </span>
-                    <span className="material-icons" title="Edit">
-                      edit
-                    </span>
-                    <span
-                      className="material-icons"
-                      title="Delete"
-                      onClick={() => handleDeleteNote(index)}
-                    >
-                      delete
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* RESIZER — show when NOT fullscreen */}
-            {!isFullscreen && (
-              <div
-                className={styles.resizer}
-                onMouseDown={(e) => startResize(e)}
-                role="separator"
-                aria-orientation="vertical"
-                aria-label="Resize notes list"
-              />
-            )}
-          </>
-        )}
-      </div>
-    </>
+    </div>
   );
 }
