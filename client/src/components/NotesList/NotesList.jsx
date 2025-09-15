@@ -171,10 +171,12 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
                   <p>{highlightMatch(note.content)}</p>
                 </div>
                 <div className={styles.noteIcons}>
-                  <span className="material-icons" title="Lock">
+                  <span className="material-icons" title="Lock"
+                  onClick={() => toggleLock(index)}>
                     {note.locked ? "lock" : "lock_open"}
                   </span>
-                  <span className="material-icons" title="Edit">
+                  <span className="material-icons" title="Edit"
+                  onClick={() => onEdit(index)}>
                     edit
                   </span>
                   <span
