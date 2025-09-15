@@ -2,6 +2,31 @@ import { useState } from "react";
 import styles from "./NotesList.module.css";
 
 export default function NotesList() {
+  const [width, setWidth] = useState(250); //initial width
+  const [isResizing, setResizing] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const listRef = useRef(null); // ref to the notes list
+  const startResize = () => setIsResizing(true);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (isResizing && !isFullscreen && !isHidden) {
+        setWidth(Math.max(180, Math.min(e.clientX, 600))); 
+        // min 180px, max 600px
+      }
+    };
+    const handleMouseUp = () => setIsResizing(false);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizing, isFullscreen, isHidden]);
+
+
   const [notes, setNotes] = useState([
     { title: "First Note", content: "Content of first note", locked: false },
     { title: "Shopping List", content: "Eggs, Milk, Bread", locked: true },
@@ -44,7 +69,26 @@ export default function NotesList() {
   );
 
   return (
-    <div className={styles.notesListContainer}>
+    <>
+    {/* Toolbar */}
+      <div>
+        <button onClick={() => setIsHidden(!isHidden)}>
+          {isHidden ? "Show": "Hide"}
+        </button>
+        <button onClick={() => setIsFullscreen(!isFullscreen)}>
+          {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+        </button>
+
+      </div>
+    <div className={styles.notesListContainer}
+    style={{
+    width: isHidden ? "0px" : isFullscreen ? "100%" : `${width}px`,
+    flex: isFullscreen ? "1 1 auto" : "0 0 auto",
+    transition: isResizing ? "none" : "width 0.2s ease"
+    }} >
+      
+      {!isHidden && (
+      <>
       {/* Tabs */}
       <div className={styles.tabs}>
         <button
@@ -89,6 +133,12 @@ export default function NotesList() {
           </li>
         ))}
       </ul>
+      {isFullscreen && (
+        <div className={styles.resizer} onMouseDown={startResize}></div>
+      )}
+      </>
+      )}
     </div>
+    </>
   );
 }
