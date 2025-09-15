@@ -176,27 +176,28 @@
 }
 
 /* Hide/Show tab (on top of resizer) */
-.toggleTab {
+.hideTab,
+.hideTabVisible {
   position: absolute;
-  top: 40px;             /* sits near top, adjust as needed */
-  right: -16px;          /* sticks out past the resizer */
-  width: 16px;
-  height: 32px;
+  top: 40%;
+  right: 0; /* sticks to the edge of the noteslist */
+  width: 20px;
+  height: 40px;
   background: #e0e0e0;
-  border-radius: 0 4px 4px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 30;
-  transition: background 0.2s ease;
+  border-radius: 0 6px 6px 0;
+  z-index: 50; /* above everything */
 }
 
-.toggleTab:hover {
+.hideTab:hover,
+.hideTabVisible:hover {
   background: #d0d0d0;
 }
 
-.toggleTab .material-icons {
-  font-size: 16px;
-  color: #555;
+.hideTab .material-icons {
+  font-size: 18px;
+  color: #444;
 }
