@@ -52,14 +52,7 @@ export default function NotesList() {
     };
   }, [isResizing]);
 
-  // dummy notes
-  const [notes, setNotes] = useState([
-    { title: "First Note", content: "Content of first note", locked: false },
-    { title: "Shopping List", content: "Eggs, Milk, Bread", locked: true },
-    { title: "Ideas", content: "React app for students", locked: false },
-  ]);
-
-  const [searchQuery, setSearchQuery] = useState("");
+  
   const [activeTab, setActiveTab] = useState("new");
 
   const handleAddNote = () => {
