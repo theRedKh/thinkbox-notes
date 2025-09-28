@@ -87,8 +87,8 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery, onClo
       <img
         src={hideIcon}
         alt="Hide"
-        style={{ cursor: "pointer", marginBottom: 8 }}
         onClick={onClose}
+        className={styles.hide}
       />
       <Toolbar
         onBold={() => handleFormat("bold")}

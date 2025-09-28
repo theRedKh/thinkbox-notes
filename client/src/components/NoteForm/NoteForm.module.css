@@ -94,3 +94,11 @@
   background-color: #fff176; /* yellow highlight */
   color: black;
 }
+
+.hide {
+  left: 0;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  
+}
