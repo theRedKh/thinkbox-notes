@@ -33,6 +33,7 @@ function App() {
           setNotes={setNotes}
           noteIndex={currentNoteIndex}
           searchQuery={searchQuery}           // pass down for highlighting
+          onClose={() => setCurrentNoteIndex(null)}
         />
       ) : (
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", height: "95dvh"}}>
