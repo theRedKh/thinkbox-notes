@@ -38,6 +38,14 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
     setContent(editorRef.current.innerHTML);
   };
 
+  const handleBulletList = () => {
+    handleFormat("insertUnorderedList");
+  };
+
+  const handleNumberedList = () => {
+    handleFormat("insertOrderedList");
+  };
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
     if (noteIndex !== null) {
@@ -79,6 +87,8 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
         onBold={() => handleFormat("bold")}
         onItalic={() => handleFormat("italic")}
         onUnderline={() => handleFormat("underline")}
+        onBulletn={handleBulletList}
+        onNumbered={handleNumberedList}
         onFont={() => alert("Font picker placeholder")}
         onSave={handleSave}  
       />
