@@ -170,8 +170,8 @@ export default function NotesList() {
             {filteredNotes.map((note, index) => (
               <li key={index} className={styles.noteItem}>
                 <div className={styles.noteText}>
-                  <strong>{highlightMatch(smartTruncate(note.title, 18))}</strong>
-                  <p>{highlightMatch(smartTruncate(note.content, 15))}</p>
+                  <strong>{highlightMatch(smartTruncate(smartTruncate(note.title, 18), 15))}</strong>
+                  <p>{highlightMatch(smartTruncate(smartTruncate(note.content, 15), 12))}</p>
                 </div>
                 <div className={styles.noteIcons}>
                   <span
