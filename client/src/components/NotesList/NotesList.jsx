@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./NotesList.module.css";
+import expandIcon from "../../assets/expand_content_googlefonts.svg"; // Add this import at the top
 
 export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes, onEdit }) {
   const listRef = useRef(null); // ref to the notes list
@@ -139,9 +140,14 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
               onClick={() => setIsFullscreen((s) => !s)}
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
-              <span className="material-icons">
-                {isFullscreen ? "fullscreen_exit" : "fullscreen"}
-              </span>
+              <img
+                src={expandIcon}
+                alt={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                style={{
+                  transform: isFullscreen ? "rotate(180deg)" : "none",
+                  transition: "transform 0.2s"
+                }}
+              />
             </button>
           </div>
 

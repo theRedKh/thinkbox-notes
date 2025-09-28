@@ -9,7 +9,7 @@ export default function Toolbar({ onBold, onItalic, onUnderline, onBulletn, onNu
             <button className={styles.btn} onClick={onUnderline}><u>U</u></button>
             <button className={styles.btn} onClick={onBulletn}><img src={listB}/></button>
             <button className={styles.btn} onClick={onNumbered}><img src={listN}/></button>
-            <button className={styles.btn} onClick={onFont}>Font</button>
+            {/*<button className={styles.btn} onClick={onFont}>Font</button>*/}
             {/* Save */}
             <button 
                 className={styles.saveBtn}
