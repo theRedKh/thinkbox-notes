@@ -2,8 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { useState, useRef } from "react";
 import styles from "./NoteForm.module.css";
 import Toolbar from "../Toolbar/Toolbar";
+import hideIcon from "../../assets/hide_googlefonts.svg"; // Import SVG as URL
 
-export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
+export default function NoteForm({ note, setNotes, noteIndex, searchQuery, onClose }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const editorRef = useRef(null);
@@ -83,6 +84,12 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery }) {
 
   return (
     <div className={styles.container}>
+      <img
+        src={hideIcon}
+        alt="Hide"
+        style={{ cursor: "pointer", marginBottom: 8 }}
+        onClick={onClose}
+      />
       <Toolbar
         onBold={() => handleFormat("bold")}
         onItalic={() => handleFormat("italic")}
