@@ -167,8 +167,8 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
             {filteredNotes.map((note, index) => (
               <li key={index} className={styles.noteItem}>
                 <div className={styles.noteText}>
-                  <strong>{highlightMatch(note.title)}</strong>
-                  <p>{highlightMatch(note.content)}</p>
+                  <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
+                  <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
                 </div>
                 <div className={styles.noteIcons}>
                   <span className="material-icons" title="Lock"
