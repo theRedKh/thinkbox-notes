@@ -13,22 +13,15 @@
 }
 
 /* controls (fullscreen button inside container, top right) */
-.controls {
+.fullscreenBtn {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 6px;
+  background: none;
+  border: none;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 
-.controls button {
-  border: none;
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: #e0e0e0;
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: background 0.2s ease;
-}
 
 .controls button:hover {
   background: #d0d0d0;

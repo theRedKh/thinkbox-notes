@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useState, useRef, useEffect } from "react";
 import styles from "./NotesList.module.css";
 import expandIcon from "../../assets/expand_content_googlefonts.svg"; // Add this import at the top
+import collapseIcon from "../../assets/collapse_content_googlefonts.svg";
 
 export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes, onEdit }) {
   const [activeTab, setActiveTab] = useState("new");
@@ -144,7 +145,7 @@ export default function NotesList() {
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
               <img
-                src={expandIcon}
+                src={isFullscreen ? collapseIcon : expandIcon}
                 alt={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                 style={{
                   transform: isFullscreen ? "rotate(180deg)" : "none",
