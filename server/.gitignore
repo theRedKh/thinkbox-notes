@@ -1,9 +1,13 @@
 # Node modules
 <<<<<<< HEAD
+<<<<<<< HEAD
 /node_modules/
 =======
 /node_modules
 >>>>>>> 4da7928 (server init)
+=======
+/node_modules/
+>>>>>>> 66bda81 (update ignore)
 
 # Logs
 npm-debug.log*
@@ -11,12 +15,16 @@ yarn-debug.log*
 yarn-error.log*
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 66bda81 (update ignore)
 # Environment files (if you add any later)
 /.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+<<<<<<< HEAD
 
 # OS files
 .DS_Store
@@ -114,10 +122,13 @@ yarn-error.log*
 =======
 # Environment variables
 .env
+=======
+>>>>>>> 66bda81 (update ignore)
 
-# Optional: OS files
+# OS files
 .DS_Store
 
+<<<<<<< HEAD
 # Build output (if any)
 dist
 build
@@ -125,3 +136,7 @@ build
 # Misc
 coverage
 >>>>>>> 4da7928 (server init)
+=======
+# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
+/notes.json
+>>>>>>> 66bda81 (update ignore)
