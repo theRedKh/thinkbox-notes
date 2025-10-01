@@ -87,22 +87,22 @@ dist-ssr
 *.sln
 *.sw?
 # Node modules
-/node_modules
+/node_modules/
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
-.env
+# Environment files (if you add any later)
+/.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Optional: OS files
+# OS files
 .DS_Store
 
-# Build output (if any)
-dist
-build
-
-# Misc
-coverage
+# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
+/notes.json
