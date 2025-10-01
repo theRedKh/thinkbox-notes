@@ -1,17 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
+const express = require("express"); //import express
+const cors = require("cors"); //import cors to allow cross-origin requests
+const fs = require("fs"); //import fs to read/write files
+const path = require("path"); //import path to handle file paths
 
-const app = express();
-const PORT = 5000;
+const app = express(); //create express app
+const PORT = 5000; //server port
 
 //Middleware
 app.use(cors()); //allow requests from the react app
 app.use(express.json()); //parse json bodies
 
 //path to the notes file
-const notesFile = path.join(__dirname, "notes.json");
+const notesFile = path.join(__dirname, "notes.json"); 
 
 //Helper functions to read and write notes
 //read json file and convert to array
