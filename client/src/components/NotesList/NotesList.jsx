@@ -81,10 +81,18 @@ export default function NotesList() {
     });
   };
 
+  //strip html from note content
+  const stripHtml = (html) => {
+    if (!html) return "";
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
   // Truncate title/content smartly
   const smartTruncate = (text, maxLength = 15) => {
-    if (!searchQuery) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
-    const index = text.toLowerCase().indexOf(searchQuery.toLowerCase());
+    const plain = stripHtml(text);
+    if (!searchQuery) return text.length > maxLength ? plain.slice(0, maxLength) + "…" : text;
+    const index = plain.toLowerCase().indexOf(searchQuery.toLowerCase());
     if (index === -1) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
     const start = Math.max(index - 7, 0);
     const end = Math.min(index + searchQuery.length + 7, text.length);
