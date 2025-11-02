@@ -14,8 +14,8 @@ export async function addNote(note) {
     return res.json();
 }
 
-export async function updateNote(index, note) {
-    const res = await fetch(`${BASE_URL}/${index}`, {
+export async function updateNote(id, note) {
+    const res = await fetch(`${BASE_URL}/${id}`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(note),
@@ -23,8 +23,8 @@ export async function updateNote(index, note) {
     return res.json();
 }
 
-export async function deleteNote(index) {
-    const res = await fetch(`${BASE_URL}/${index}`, { method: "DELETE" });
+export async function deleteNote(id) {
+    const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
     return res.json();
 }
 

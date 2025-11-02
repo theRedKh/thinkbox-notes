@@ -41,38 +41,37 @@ app.get("/api/notes", (req, res) => {
 //POST a new note
 app.post("/api/notes", (req, res) => {
     const notes = readNotes();
-    const newNote = req.body; //sent from front end
+    const newNote = { id: Date.now(), ...req.body}; //sent from front end, and unique id
     notes.push(newNote);
     writeNotes(notes);
     res.status(201).json(newNote);
 });
 
-//PUT update a note by index
-app.put("/api/notes/:index", (req, res) => {
+//PUT update a note by id
+app.put("/api/notes/:id", (req, res) => {
     const notes = readNotes();
-    const index = parseInt(req.params.index, 10);
-    if (index >= 0 && index < notes.length) {
-        notes[index] = req.body; //updated note from front end
-        writeNotes(notes);
-        res.json(notes[index]);
-    } else {
-        res.status(404).json({ error: "Note not found" });
-    }
+    const noteIndex = notes.findIndex(n => n.id === Number(req.params.id));
+   if (noteIndex !== -1) {
+    notes[noteIndex] = { ...notes[noteIndex], ...req.body };
+    writeNotes(notes);
+    res.json(notes[noteIndex]);
+  } else {
+    res.status(404).json({ error: "Note not found" });
+  }
 });
 
-//DELETE a note by index
-app.delete("/api/notes/:index", (req, res) => {
-    const notes = readNotes();
-    const index = parseInt(req.params.index, 10);
-    if (index >= 0 && index < notes.length) {
-        const deletedNote = notes.splice(index, 1);
-        writeNotes(notes);
-        res.json(deletedNote[0]);
-    } else {
-        res.status(404).json({ error: "Note not found" });
-    }
+//DELETE a note by id
+app.delete("/api/notes/:id", (req, res) => {
+  const notes = readNotes();
+  const noteIndex = notes.findIndex(n => n.id === Number(req.params.id));
+  if (noteIndex !== -1) {
+    const deletedNote = notes.splice(noteIndex, 1);
+    writeNotes(notes);
+    res.json(deletedNote[0]);
+  } else {
+    res.status(404).json({ error: "Note not found" });
+  }
 });
-
 
 //Start server
 app.listen(PORT, () => {

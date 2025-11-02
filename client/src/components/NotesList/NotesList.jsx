@@ -1,17 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./NotesList.module.css";
-import expandIcon from "../../assets/expand_content_googlefonts.svg"; // Add this import at the top
+import expandIcon from "../../assets/expand_content_googlefonts.svg";
 import collapseIcon from "../../assets/collapse_content_googlefonts.svg";
 
-export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes, onEdit }) {
-  const listRef = useRef(null); // ref to the notes list
+export default function NotesList({ notes, setNotes, searchQuery, setSearchQuery, onEdit, api }) {
+  const listRef = useRef(null);
   const containerRef = useRef(null);
 
   const [width, setWidth] = useState(250);
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeTab, setActiveTab] = useState("new");
 
+  // ---------- Handle resizing ----------
   const startResize = (e) => {
     e.preventDefault();
     setIsResizing(true);
@@ -38,68 +40,63 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
   }, [isResizing, isFullscreen, isHidden]);
 
   useEffect(() => {
-    if (isResizing) {
-      document.body.style.cursor = "ew-resize";
-      document.body.style.userSelect = "none";
-    } else {
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    }
-    return () => {
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
-    };
+    document.body.style.cursor = isResizing ? "ew-resize" : "";
+    document.body.style.userSelect = isResizing ? "none" : "";
   }, [isResizing]);
 
-  
-  const [activeTab, setActiveTab] = useState("new");
-
-  const handleAddNote = () => {
-    const newNote = {
-      title: "Untitled Note",
-      content: "",
-      locked: false,
-      created: new Date(),
-    };
-    setNotes([newNote, ...notes]);
-    onEdit(0);
-    setActiveTab("search"); // switch to search/edit view
+  // ---------- API Handlers ----------
+  const handleAddNote = async () => {
+    try {
+      const res = await fetch(`${api}/notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: "Untitled Note", content: "" }),
+      });
+      const newNote = await res.json();
+      setNotes((prev) => [newNote, ...prev]);
+      onEdit(0);
+      setActiveTab("search");
+    } catch (err) {
+      console.error("Error adding note:", err);
+    }
   };
 
-  const handleDeleteNote = (index) => {
-    setNotes(notes.filter((_, i) => i !== index));
+  const handleDeleteNote = async (id) => {
+    try {
+      await fetch(`${api}/notes/${id}`, { method: "DELETE" });
+      setNotes((prev) => prev.filter((note) => note._id !== id));
+    } catch (err) {
+      console.error("Error deleting note:", err);
+    }
   };
 
-  const toggleLock = (index) => {
-    setNotes((prev) => {
-      const copy = [...prev];
-      copy[index] = { ...copy[index], locked: !copy[index].locked };
-      return copy;
-    });
+  const toggleLock = async (id, currentLock) => {
+    try {
+      const res = await fetch(`${api}/notes/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locked: !currentLock }),
+      });
+      const updated = await res.json();
+      setNotes((prev) => prev.map((n) => (n._id === id ? updated : n)));
+    } catch (err) {
+      console.error("Error toggling lock:", err);
+    }
   };
 
-  //strip html from note content
+  // ---------- Helpers ----------
   const stripHtml = (html) => {
     if (!html) return "";
     const tmp = document.createElement("div");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
   };
-  // Truncate title/content smartly
+
   const smartTruncate = (text, maxLength = 15) => {
     const plain = stripHtml(text);
-    if (!searchQuery) return text.length > maxLength ? plain.slice(0, maxLength) + "…" : text;
-    const index = plain.toLowerCase().indexOf(searchQuery.toLowerCase());
-    if (index === -1) return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
-    const start = Math.max(index - 7, 0);
-    const end = Math.min(index + searchQuery.length + 7, text.length);
-    let snippet = text.slice(start, end);
-    if (start > 0) snippet = "…" + snippet;
-    if (end < text.length) snippet = snippet + "…";
-    return snippet;
+    return plain.length > maxLength ? plain.slice(0, maxLength) + "…" : plain;
   };
 
-  // Highlight search matches
   const highlightMatch = (text) => {
     if (!searchQuery) return text;
     const regex = new RegExp(`(${searchQuery})`, "gi");
@@ -118,22 +115,17 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
       note.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Scroll to top when a new note is added
   useEffect(() => {
     if (listRef.current && activeTab === "search") {
-      listRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      listRef.current.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [notes, activeTab]);
 
+  // ---------- JSX ----------
   return (
     <div
       ref={containerRef}
-      className={`${styles.notesListContainer} ${
-        isFullscreen ? styles.fullscreen : ""
-      }`}
+      className={`${styles.notesListContainer} ${isFullscreen ? styles.fullscreen : ""}`}
       style={{
         width: isHidden ? "0px" : isFullscreen ? "100%" : `${width}px`,
         flex: isFullscreen ? "1 1 auto" : "0 0 auto",
@@ -142,7 +134,7 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
     >
       {!isHidden && (
         <>
-          {/* Header (fullscreen button here) */}
+          {/* Header */}
           <div className={styles.header}>
             <button
               className={styles.fullscreenBtn}
@@ -151,10 +143,10 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
             >
               <img
                 src={isFullscreen ? collapseIcon : expandIcon}
-                alt={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                alt="toggle fullscreen"
                 style={{
                   transform: isFullscreen ? "rotate(180deg)" : "none",
-                  transition: "transform 0.2s"
+                  transition: "transform 0.2s",
                 }}
               />
             </button>
@@ -178,26 +170,32 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
           </div>
 
           {/* Notes List */}
-          <ul className={styles.list}>
-            {filteredNotes.map((note, index) => (
-              <li key={index} className={styles.noteItem}>
+          <ul ref={listRef} className={styles.list}>
+            {filteredNotes.map((note) => (
+              <li key={note._id} className={styles.noteItem}>
                 <div className={styles.noteText}>
                   <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
                   <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
                 </div>
                 <div className={styles.noteIcons}>
-                  <span className="material-icons" title="Lock"
-                  onClick={() => toggleLock(index)}>
+                  <span
+                    className="material-icons"
+                    title="Lock"
+                    onClick={() => toggleLock(note._id, note.locked)}
+                  >
                     {note.locked ? "lock" : "lock_open"}
                   </span>
-                  <span className="material-icons" title="Edit"
-                  onClick={() => onEdit(index)}>
+                  <span
+                    className="material-icons"
+                    title="Edit"
+                    onClick={() => onEdit(note._id)}
+                  >
                     edit
                   </span>
                   <span
                     className="material-icons"
                     title="Delete"
-                    onClick={() => handleDeleteNote(index)}
+                    onClick={() => handleDeleteNote(note._id)}
                   >
                     delete
                   </span>
@@ -208,17 +206,15 @@ export default function NotesList({ notes, searchQuery, setSearchQuery, setNotes
         </>
       )}
 
-      {/* RESIZER + Hide tab */}
-      <div className={styles.resizer} onMouseDown={startResize}>
-        
-      </div>
+      {/* Resizer + Hide tab */}
+      <div className={styles.resizer} onMouseDown={startResize}></div>
       <div
-          className={styles.hideTab}
-          onClick={() => setIsHidden((s) => !s)}
-          title={isHidden ? "Show Notes" : "Hide Notes"}
-        >
-          {isHidden ? "→" : "←"} {/* simple text arrows */}
-        </div>
+        className={styles.hideTab}
+        onClick={() => setIsHidden((s) => !s)}
+        title={isHidden ? "Show Notes" : "Hide Notes"}
+      >
+        {isHidden ? "→" : "←"}
+      </div>
     </div>
   );
 }
