@@ -3,11 +3,11 @@ import styles from "./NoteForm.module.css";
 import Toolbar from "../Toolbar/Toolbar";
 import hideIcon from "../../assets/hide_googlefonts.svg";
 
-export default function NoteForm({ note, setNotes, noteIndex, searchQuery, onClose }) {
+export default function NoteForm({ note, onUpdate, setNotes, noteIndex, searchQuery, onClose }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const editorRef = useRef(null);
+  //const editorRef = useRef(null);
   const textareaRef = useRef(null);
 
   // Load selected note
@@ -21,15 +21,14 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery, onClo
     }
   }, [note]);
 
-  // Save note
-  const handleSave = () => {
-    if (noteIndex !== null) {
-      setNotes((prev) => {
-        const copy = [...prev];
-        copy[noteIndex] = { ...copy[noteIndex], title, content };
-        return copy;
-      });
-      alert("Note saved!");
+  // Save note to backend
+  const handleSave = async () => {
+    if (!note) return;
+    try {
+      await onUpdate(note.id, { title, content });
+      alert("Note saved!")
+    } catch (err){
+      console.error("Failed to save note:", err);
     }
   };
 
@@ -51,30 +50,11 @@ export default function NoteForm({ note, setNotes, noteIndex, searchQuery, onClo
 
   // Content editing in textarea
   const handleContentChange = (e) => {
-    const newText = e.target.value;
-    setContent(newText);
-
-    if (noteIndex !== null) {
-      setNotes((prev) => {
-        const copy = [...prev];
-        copy[noteIndex].content = newText;
-        return copy;
-      });
-    }
+    setContent(e.target.value);
   };
-
-  // Title editing
+  
   const handleTitleChange = (e) => {
-    const newTitle = e.target.value;
-    setTitle(newTitle);
-
-    if (noteIndex !== null) {
-      setNotes((prev) => {
-        const copy = [...prev];
-        copy[noteIndex].title = newTitle;
-        return copy;
-      });
-    }
+    setTitle(e.target.value);
   };
 
   // Markdown-style formatting for textarea
