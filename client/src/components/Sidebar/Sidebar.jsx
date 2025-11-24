@@ -69,7 +69,7 @@ export default function Sidebar() {
       </ul>
 
       {/* Folders section */}
-      <h3 className={styles.sectionTitle}>Folders</h3>
+      <h3 className={styles.folderTitle}>Folders</h3>
       <ul className={styles.list}>
         {folders.map((folder, index) => (
           <li
