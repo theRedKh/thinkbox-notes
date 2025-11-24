@@ -7,7 +7,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
-  --main-bg:  #F5F5F5;
+  --main-bg:  #F7F7F7;
+  --sage-active: #7AA38F;
+  --sage-hover: #7AA38F30;
 }
 
 body {
