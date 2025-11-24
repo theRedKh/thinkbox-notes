@@ -141,10 +141,10 @@
 
 /* Hover & selected folder */
 .list li:hover {
-  background-color: #e0e0e0;
+  background-color: #7AA38F30;
 }
 
 .selected {
-  background-color: #d0ebff; /* light blue highlight */
+  background-color: #7AA38F; /* light blue highlight */
   font-weight: 600;
 }
