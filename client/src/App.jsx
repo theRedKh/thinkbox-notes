@@ -13,33 +13,51 @@ function App() {
   // Fetch notes on mount
   useEffect(() => {
     async function fetchNotes() {
-      const data = await getNotes();
-      setNotes(data);
+      try{
+        const data = await getNotes();
+        setNotes(data);
+      } catch (err) {
+        console.error("Failed to fetch notes:", err);
+      }
     }
     fetchNotes();
   }, []); // ✅ empty dependency array to run only once
 
   // 🟢 Add a new note
   const handleAddNote = async () => {
-    const newNote = { title: "Untitled Note", content: "", locked: false, created: new Date() };
-    const savedNote = await addNote(newNote);
-    setNotes(prev => [savedNote, ...prev]);
-    setCurrentNoteIndex(0); // open the new note immediately
+    const newNote = { 
+      title: "Untitled Note", 
+      content: "", 
+      locked: false, 
+      created: new Date() 
+    };
+    try {
+      const savedNote = await addNote(newNote);
+      setNotes((prev) => [savedNote, ...prev]);
+      setCurrentNoteIndex(0); //open new note
+    } catch (err) {
+      console.error("Failed to add note:", err);
+    }
   };
 
   // 🟡 Update a note
-  const handleUpdateNote = async (id, updatedNote) => {
-    const savedNote = await updateNote(id, updatedNote);
-    setNotes(prev => prev.map((n) => (n._id === id ? savedNote : n)));
+  const handleUpdateNote = async (id, updatedFields) => {
+    const updatedNote = await updateNote(id, updatedFields);
+    setNotes((prev) => 
+      prev.map((n) => (n.id === id ? updateNote : n)));
   };
 
   // 🔴 Delete a note
   const handleDeleteNote = async (id) => {
-    await deleteNote(id);
-    setNotes(prev => prev.filter(n => n._id !== id));
-    // collapse NoteForm if currently open note is deleted
-    if (currentNoteIndex !== null && notes[currentNoteIndex]._id === id) {
-      setCurrentNoteIndex(null);
+    try {
+      await deleteNote(id);
+      setNotes(prev => prev.filter(n => n.id !== id));
+      // collapse NoteForm if currently open note is deleted
+      if (currentNoteIndex !== null && notes[currentNoteIndex].id === id) {
+        setCurrentNoteIndex(null);
+      }
+    } catch (err) {
+      console.error("Failed to delete note:",err);
     }
   };
 
