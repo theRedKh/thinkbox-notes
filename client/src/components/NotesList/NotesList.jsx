@@ -6,6 +6,7 @@ import collapseIcon from "../../assets/collapse_content_googlefonts.svg";
 export default function NotesList({
   notes,
   searchQuery,
+  setSearchQuery,
   onAdd,
   onDelete,
   onEdit,
@@ -33,8 +34,7 @@ export default function NotesList({
       if (!rect) return;
 
       const newWidth = e.clientX - rect.left;
-      const clamped = Math.max(180, Math.min(newWidth, 600));
-      setWidth(clamped);
+      setWidth(Math.max(180, Math.min(newWidth, 600)));
     };
 
     const stop = () => setIsResizing(false);
@@ -52,7 +52,6 @@ export default function NotesList({
     document.body.style.cursor = isResizing ? "ew-resize" : "";
     document.body.style.userSelect = isResizing ? "none" : "";
   }, [isResizing]);
-
 
   // ------------------ Helpers ------------------
   const stripHtml = (html) => {
@@ -146,12 +145,10 @@ export default function NotesList({
 
           {/* --- Notes List --- */}
           <ul ref={listRef} className={styles.list}>
-            {filteredNotes.map((note) => (
-              <li key={note._id} className={styles.noteItem}>
+            {filteredNotes.map((note, index) => (
+              <li key={note.id || note._id || index} className={styles.noteItem}>
                 <div className={styles.noteText}>
-                  <strong>
-                    {highlightMatch(smartTruncate(note.title, 15))}
-                  </strong>
+                  <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
                   <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
                 </div>
 
@@ -159,7 +156,9 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title={note.locked ? "Unlock" : "Lock"}
-                    onClick={() => onToggleLock && onToggleLock(note.id, note.locked)}
+                    onClick={() =>
+                      onToggleLock && onToggleLock(note.id || note._id, note.locked)
+                    }
                   >
                     {note.locked ? "lock" : "lock_open"}
                   </span>
@@ -175,7 +174,7 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title="Delete"
-                    onClick={() => onDelete(note.id)}
+                    onClick={() => onDelete(note.id || note._id)}
                   >
                     delete
                   </span>
