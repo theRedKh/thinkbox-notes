@@ -61,6 +61,17 @@ function App() {
     }
   };
 
+  const handleToggleLock = async (id, currentLocked) => {
+    try {
+      const updatedNote = await updateNote(id, { locked: !currentLocked });
+      setNotes((prev) =>
+        prev.map((note) => (note.id === id ? updatedNote : note))
+      );
+    } catch (err) {
+      console.error("Failed to toggle lock:", err);
+    }
+  };
+
   return (
     <div className='app-container' style={{ display: 'flex' }}>
       <Sidebar />
@@ -73,13 +84,12 @@ function App() {
         onEdit={(index) => setCurrentNoteIndex(index)}
         onDelete={handleDeleteNote}
         onAdd={handleAddNote}
+        onToggleLock={handleToggleLock}
       />
 
       {currentNoteIndex !== null ? (
         <NoteForm
           note={notes[currentNoteIndex]}
-          setNotes={setNotes}
-          noteIndex={currentNoteIndex}
           searchQuery={searchQuery}
           onUpdate={handleUpdateNote}
           onClose={() => setCurrentNoteIndex(null)}

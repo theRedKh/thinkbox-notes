@@ -5,11 +5,11 @@ import collapseIcon from "../../assets/collapse_content_googlefonts.svg";
 
 export default function NotesList({
   notes,
-  setNotes,
   searchQuery,
-  setSearchQuery,
+  onAdd,
+  onDelete,
   onEdit,
-  api,
+  onToggleLock,
 }) {
   const containerRef = useRef(null);
   const listRef = useRef(null);
@@ -53,47 +53,6 @@ export default function NotesList({
     document.body.style.userSelect = isResizing ? "none" : "";
   }, [isResizing]);
 
-  // ------------------ API Handlers ------------------
-  const handleAddNote = async () => {
-    try {
-      const res = await fetch(`${api}/notes`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: "Untitled Note", content: "" }),
-      });
-
-      const newNote = await res.json();
-      setNotes((prev) => [newNote, ...prev]);
-      onEdit(newNote._id);
-      setActiveTab("search");
-    } catch (err) {
-      console.error("Error adding note:", err);
-    }
-  };
-
-  const handleDeleteNote = async (id) => {
-    try {
-      await fetch(`${api}/notes/${id}`, { method: "DELETE" });
-      setNotes((prev) => prev.filter((note) => note._id !== id));
-    } catch (err) {
-      console.error("Error deleting note:", err);
-    }
-  };
-
-  const toggleLock = async (id, locked) => {
-    try {
-      const res = await fetch(`${api}/notes/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ locked: !locked }),
-      });
-
-      const updated = await res.json();
-      setNotes((prev) => prev.map((n) => (n._id === id ? updated : n)));
-    } catch (err) {
-      console.error("Error toggling lock:", err);
-    }
-  };
 
   // ------------------ Helpers ------------------
   const stripHtml = (html) => {
@@ -200,7 +159,7 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title={note.locked ? "Unlock" : "Lock"}
-                    onClick={() => toggleLock(note._id, note.locked)}
+                    onClick={() => onToggleLock && onToggleLock(note.id, note.locked)}
                   >
                     {note.locked ? "lock" : "lock_open"}
                   </span>
@@ -208,7 +167,7 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title="Edit"
-                    onClick={() => onEdit(note._id)}
+                    onClick={() => onEdit(index)}
                   >
                     edit
                   </span>
@@ -216,7 +175,7 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title="Delete"
-                    onClick={() => handleDeleteNote(note._id)}
+                    onClick={() => handleDeleteNote(note.id)}
                   >
                     delete
                   </span>

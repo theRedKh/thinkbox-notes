@@ -3,11 +3,10 @@ import styles from "./NoteForm.module.css";
 import Toolbar from "../Toolbar/Toolbar";
 import hideIcon from "../../assets/hide_googlefonts.svg";
 
-export default function NoteForm({ note, onUpdate, setNotes, noteIndex, searchQuery, onClose }) {
+export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  //const editorRef = useRef(null);
   const textareaRef = useRef(null);
 
   // Load selected note
@@ -31,6 +30,15 @@ export default function NoteForm({ note, onUpdate, setNotes, noteIndex, searchQu
       console.error("Failed to save note:", err);
     }
   };
+  
+  // Content editing in textarea
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+  
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
 
   // Highlight search matches
   const highlightMatch = (text) => {
@@ -48,14 +56,6 @@ export default function NoteForm({ note, onUpdate, setNotes, noteIndex, searchQu
     );
   };
 
-  // Content editing in textarea
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
-  };
-  
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
 
   // Markdown-style formatting for textarea
   const insertTag = (tagStart, tagEnd) => {
