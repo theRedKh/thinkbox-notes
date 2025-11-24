@@ -130,7 +130,7 @@ export default function NotesList({
           <div className={styles.tabs}>
             <button
               className={activeTab === "new" ? styles.activeTab : ""}
-              onClick={handleAddNote}
+              onClick={onAdd}
             >
               + New Note
             </button>
@@ -175,7 +175,7 @@ export default function NotesList({
                   <span
                     className="material-icons"
                     title="Delete"
-                    onClick={() => handleDeleteNote(note.id)}
+                    onClick={() => onDelete(note.id)}
                   >
                     delete
                   </span>
