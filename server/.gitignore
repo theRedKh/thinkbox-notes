@@ -1,25 +1,13 @@
 # Node modules
-/node_modules/
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
 
 # Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Environment files (if you add any later)
-/.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# OS files
-.DS_Store
-
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
-# Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -27,180 +15,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# Node modules
-/node_modules/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Environment files (if you add any later)
-/.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# OS files
-.DS_Store
-
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
-# Node modules
-<<<<<<< HEAD
-<<<<<<< HEAD
-/node_modules/
-=======
-/node_modules
->>>>>>> 4da7928 (server init)
-=======
-/node_modules/
->>>>>>> 66bda81 (update ignore)
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 66bda81 (update ignore)
-# Environment files (if you add any later)
-/.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-<<<<<<< HEAD
-
-# OS files
-.DS_Store
-
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# Node modules
-/node_modules/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Environment files (if you add any later)
-/.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# OS files
-.DS_Store
-
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# Node modules
-/node_modules/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Environment files (if you add any later)
-/.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# OS files
-.DS_Store
-
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
-=======
-# Environment variables
+# Environment files
 .env
-=======
->>>>>>> 66bda81 (update ignore)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # OS files
 .DS_Store
 
-<<<<<<< HEAD
-# Build output (if any)
-dist
-build
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Misc
-coverage
->>>>>>> 4da7928 (server init)
-=======
-# Optional: JSON storage (if you don’t want notes.json pushed, otherwise remove this line)
-/notes.json
->>>>>>> 66bda81 (update ignore)
+# Local config
+*.local
+
+# Optional: User data or JSON storage
+notes.json
+
+# Coverage output
+coverage/
