@@ -154,7 +154,8 @@
 }
 
 /*Selected folder */
-.selected {
+.list li.selected {
   background-color: var(--sage-active); /* light blue highlight */
   color: var(--main-bg);
+  font-weight: 600;
 }
