@@ -10,6 +10,7 @@
   --main-bg:  #F7F7F7;
   --sage-active: #7AA38F;
   --sage-hover: #7AA38F30;
+  --sage-btn: rgba(122, 163, 143, 0.44);
 }
 
 body {
