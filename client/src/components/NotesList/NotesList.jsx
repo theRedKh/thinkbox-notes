@@ -135,6 +135,7 @@ export default function NotesList({
             </button>
 
             <input
+              className={styles.searchAside}
               type="text"
               placeholder="Search notes..."
               value={searchQuery}
