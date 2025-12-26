@@ -120,17 +120,18 @@
   padding: 12px 24px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #E8F4F0;
+  color: var(--main-bg);
   background-color: var(--sage-active);
   border: none;
+  box-shadow: 0 2px 4px 0 rgba(122, 163, 143, 0.19);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .addFolderBtn:hover {
-  background-color: var(--sage-hover);
-  color: black;
+  background-color: var(--sage-btn);
+  color: #6B7565;
 }
 
 .addFolderBtn.hidden {
