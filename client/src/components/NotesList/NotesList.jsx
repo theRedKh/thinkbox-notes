@@ -163,7 +163,7 @@ export default function NotesList({
                   >
                     {note.locked ? "lock" : "lock_open"}
                   </span>
-
+                      
                   <span
                     className="material-icons"
                     title="Edit"

@@ -46,20 +46,28 @@
   background-color: var(--sage-hover);
 }
 
+
+/* SVG rename icon stroke transition */
+.renameIcon svg path,
+.trashIcon svg path {
+  stroke: var(--sage-btn);
+  transition: stroke 0.2s ease;
+}
+
+
 .trashIcon, .renameIcon {
-  font-size: 18px;
-  color: #888;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
-.trashIcon:hover {
-  color: #ff4d4d;
+.trashIcon:hover svg path{
+  stroke: #ff4d4d;
 }
 
-.renameIcon:hover {
-  color: #4d90ff;
+.renameIcon:hover svg path {
+  stroke: var(--sage-active);
 }
+
 
 /*---------------------------FOLDERS------------------------------*/
 .folderTitle {
