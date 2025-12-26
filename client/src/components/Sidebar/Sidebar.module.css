@@ -75,7 +75,7 @@
   color: #929292;
   text-transform: uppercase;
   margin: 50px 0 8px 0;
-  font-weight: 600;
+  font-weight: 500;
 }
 /* Rename input */
 .folderRenameInput {
@@ -111,6 +111,7 @@
 .folderInput {
   width: 100%;
   padding: 5px 8px;
+  font-family: "Work Sans";
   font-size: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
