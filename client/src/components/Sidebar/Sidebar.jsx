@@ -128,7 +128,7 @@ export default function Sidebar() {
               value={newFolderName}
               onChange={(e) => setNewFolderName(e.target.value)}
               onKeyDown={handleKeyPressAdd}
-              placeholder="Folder name"
+              placeholder="Folder Name..."
               autoFocus
             />
           </li>
