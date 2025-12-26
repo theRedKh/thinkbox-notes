@@ -19,7 +19,6 @@ export default function NotesList({
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [activeTab, setActiveTab] = useState("new");
 
   // ------------------ Resizing panel ------------------
   const startResize = (e) => {
@@ -87,12 +86,10 @@ export default function NotesList({
       n.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  useEffect(() => {
-    if (listRef.current && activeTab === "search") {
-      listRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [notes, activeTab]);
-
+  const searchRef = useRef(null);
+  const handleSearchFocus = () => {
+    listRef.current?.scrollTo({top: 0, behavior: "smooth"});
+  }
   // ------------------ JSX ------------------
   return (
     <div
@@ -128,7 +125,7 @@ export default function NotesList({
           {/* --- Tabs --- */}
           <div className={styles.tabs}>
             <button
-              className={activeTab === "new" ? styles.activeTab : ""}
+              className={styles.newNote}
               onClick={onAdd}
             >
               + New Note
@@ -139,7 +136,7 @@ export default function NotesList({
               type="text"
               placeholder="Search notes..."
               value={searchQuery}
-              onFocus={() => setActiveTab("search")}
+              onFocus={handleSearchFocus}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
