@@ -1,6 +1,6 @@
 .notesListContainer {
   position: relative;
-  width: 250px;
+  width: 365px;
   flex: 0 0 auto;
   padding: 10px;
   display: flex;
@@ -30,34 +30,35 @@
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 12px;
   width: 100%;
-  flex-shrink: 0;
-  box-sizing: border-box;
+  align-items: center;  
 }
 
-.tabs button {
-  flex: 0 0 60px;
-  padding: 4px 6px;
+.tabs .newNote {
+  flex: 0 0 100px;
+  height: 48px;
+  padding: 6px 12px;
   border: none;
   border-radius: 6px;
-  background-color: #e0e0e0;
+  background-color: var(--sage-btn);
   cursor: pointer;
   user-select: none;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 500;
+  font-size: 16px;
   transition: background 0.2s ease;
 }
 
-.tabs button:hover {
+.tabs .newNote:hover {
   background-color: #d0d0d0;
 }
 
 .tabs .searchAside {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  padding: 4px 6px;
+  height: 30px;
+  padding: 4px 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
@@ -72,9 +73,7 @@
   transition: all 0.3s ease;
 }
 
-.activeTab {
-  background-color: #d0ebff;
-}
+
 
 /* Notes list */
 .list {
