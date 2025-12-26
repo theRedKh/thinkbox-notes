@@ -129,19 +129,24 @@
   user-select: none;
 }
 
-/* Material Icons (global) inside noteIcons */
-.noteIcons :global(.material-icons) {
-  font-size: 18px;
-  color: #888;
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease;
+.editIcon svg path,
+.trashIcon svg path,
+.lockIcon svg path {
+  stroke: #888;
+  transition: stroke 0.2s ease;
 }
 
-.noteIcons :global(.material-icons):hover {
-  color: #4d90ff;
+.editIcon:hover svg path {
+  stroke: #4d90ff;
 }
 
+.trashIcon:hover svg path {
+  stroke: #e53935;
+}
+
+.lockIcon:hover svg path {
+  stroke: var(--sage-active);
+}
 /* Highlight search matches */
 .highlight {
   background-color: #fff176;
