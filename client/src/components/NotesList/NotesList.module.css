@@ -38,11 +38,17 @@
 
 .tabs .newNote {
   flex: 0 0 100px;
+  display: flex;
   height: 48px;
   padding: 6px 12px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   border: none;
   border-radius: 6px;
   background-color: var(--sage-btn);
+  color: var(--sage-text);
   cursor: pointer;
   user-select: none;
   font-weight: 500;
@@ -51,13 +57,14 @@
 }
 
 .tabs .newNote:hover {
-  background-color: #d0d0d0;
+  background-color: var(--sage-hover);
+  color: var(--sage-active);
 }
 
 .tabs .searchAside {
   flex: 1 1 auto;
   min-width: 0;
-  height: 30px;
+  height: 48px;
   padding: 4px 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -68,8 +75,8 @@
 }
 
 .tabs .searchAside:focus {
-  background-color: #d0ebff;
-  border-color: #4d90ff;
+  background-color: var(--sage-hover);
+  border-color: var(--sage-active);
   transition: all 0.3s ease;
 }
 
