@@ -148,7 +148,8 @@ export default function NotesList({
           <ul ref={listRef} className={styles.list}>
             {filteredNotes.map((note, index) => (
               <li key={note.id || note._id || index} className={styles.noteItem}>
-                <div className={styles.noteText}>
+                <div className={styles.noteText}
+                onClick={() => onEdit(index)}>
                   <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
                   <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
                 </div>
