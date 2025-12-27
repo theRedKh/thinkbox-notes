@@ -100,10 +100,9 @@
   align-items: center;
   
   border-radius: 4px;
-  border: 0.5px solid #929292;
+  border: 0.2px solid #c1bfbf;
   margin-bottom: 6px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   transition: background 0.2s ease;
 }
 
