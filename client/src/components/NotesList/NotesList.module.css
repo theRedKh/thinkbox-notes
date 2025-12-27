@@ -62,16 +62,33 @@
 }
 
 .tabs .searchAside {
+  display: flex;
+  width: 215px;
   flex: 1 1 auto;
   min-width: 0;
   height: 48px;
-  padding: 4px 8px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  align-items: flex-start;
+  gap: 10px;
+
+  border: none;
   border-radius: 6px;
+  background: #F2F2F2;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
   outline: none;
-  font-size: 0.85rem;
+
+  font-family: "Work Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
   box-sizing: border-box;
   user-select: none;
+
+}
+
+.tabs .searchAside:hover {
+  background-color: var(--sage-hover);
+  border-color: var(--sage-active);
+  transition: all 0.3s ease;
 }
 
 .tabs .searchAside:focus {
@@ -96,6 +113,7 @@
 .noteItem {
   display: flex;
   padding: 12px;
+  min-width: 230px;
   justify-content: space-between;
   align-items: center;
   
@@ -148,6 +166,9 @@
   transition: stroke 0.2s ease;
 }
 
+.noteIcons:hover {
+  cursor: pointer;
+}
 .editIcon:hover svg path {
   stroke: #4d90ff;
 }
@@ -155,10 +176,16 @@
   stroke: #e53935;
 }
 .lockIcon:hover svg path {
+  stroke: rgb(63, 146, 236);
+}
+.favorite:hover svg path {
+  stroke: #fbc02d;
+  fill: #fbc02d;
+}
+.more:hover svg path {
+  fill: var(--sage-active);
   stroke: var(--sage-active);
 }
-
-
 /* Highlight search matches */
 .highlight {
   background-color: #fff176;
