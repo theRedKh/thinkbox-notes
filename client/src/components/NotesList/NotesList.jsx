@@ -155,6 +155,17 @@ export default function NotesList({
 
                 <div className={styles.noteIcons}>
                   <span
+                    className={styles.favorite}
+                    title="Favorite"
+                    onClick={true}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M8.00001 1.33333L10.06 5.50666L14.6667 6.18L11.3333 9.42666L12.12 14.0133L8.00001 11.8467L3.88001 14.0133L4.66668 9.42666L1.33334 6.18L5.94001 5.50666L8.00001 1.33333Z" 
+                      stroke="#1E1E1E" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+
+                  <span
                     className={styles.lockIcon}
                     title={note.locked ? "Unlock" : "Lock"}
                     onClick={() =>
@@ -172,7 +183,7 @@ export default function NotesList({
                     )}
                   </span>
                       
-                  <span
+                  {/*<span
                     className={styles.editIcon}
                     title="Edit"
                     onClick={() => onEdit(index)}
@@ -181,8 +192,20 @@ export default function NotesList({
                     <path d="M14.1667 2.49999C14.3855 2.28112 14.6454 2.1075 14.9313 1.98905C15.2173 1.8706 15.5238 1.80963 15.8333 1.80963C16.1429 1.80963 16.4494 1.8706 16.7353 1.98905C17.0213 2.1075 17.2811 2.28112 17.5 2.49999C17.7189 2.71886 17.8925 2.97869 18.0109 3.26466C18.1294 3.55063 18.1904 3.85713 18.1904 4.16665C18.1904 4.47618 18.1294 4.78268 18.0109 5.06865C17.8925 5.35461 17.7189 5.61445 17.5 5.83332L6.25 17.0833L1.66667 18.3333L2.91667 13.75L14.1667 2.49999Z" 
                     strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
+                  </span> */}
+                  <span
+                    className={styles.more}
+                    title="More Actions"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M10 10.8333C10.4603 10.8333 10.8334 10.4602 10.8334 10C10.8334 9.53976 10.4603 9.16666 10 9.16666C9.53978 9.16666 9.16669 9.53976 9.16669 10C9.16669 10.4602 9.53978 10.8333 10 10.8333Z" 
+                      stroke="#1E1E1E" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 4.99999C10.4603 4.99999 10.8334 4.6269 10.8334 4.16666C10.8334 3.70642 10.4603 3.33333 10 3.33333C9.53978 3.33333 9.16669 3.70642 9.16669 4.16666C9.16669 4.6269 9.53978 4.99999 10 4.99999Z" 
+                      stroke="#1E1E1E" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 16.6667C10.4603 16.6667 10.8334 16.2936 10.8334 15.8333C10.8334 15.3731 10.4603 15 10 15C9.53978 15 9.16669 15.3731 9.16669 15.8333C9.16669 16.2936 9.53978 16.6667 10 16.6667Z" 
+                      stroke="#1E1E1E" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </span>
-
                   <span
                     className={styles.trashIcon}
                     title="Delete"
