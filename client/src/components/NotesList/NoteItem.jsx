@@ -9,7 +9,7 @@ export default function NoteItem({
     onEdit,
     onDelete,
     onToggleLock,
-    onToggleFavorite, //wire later
+    onMoveCategory,
 }){
 
     const [showMoveModal, setShowMoveModal] = useState(false);

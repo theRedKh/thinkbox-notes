@@ -129,6 +129,7 @@ export default function NotesList({
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onToggleLock={onToggleLock}
+                onMoveCategory={onMoveCategory}
               />
             ))}
           </ul>
