@@ -96,9 +96,9 @@
 }
 
 .hide {
-  left: 0;
+  right: 20px;
+  position: absolute;
   height: 30px;
   width: 30px;
   cursor: pointer;
-  
 }
