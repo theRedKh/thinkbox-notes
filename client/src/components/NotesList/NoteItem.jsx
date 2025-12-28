@@ -9,7 +9,37 @@ export default function NoteItem({
     onToggleLock,
     onToggleFavorite, //wire later
 }){
-    //---Helpers-----------
+    //--------Helpers-----------
+    const stripHtml = (html) => {
+    //this is a security feature, as well as cleaning visuals
+    //strips html tags for output and input
+        if (!html) return "";
+        const tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || "";
+  };
+
+  //smart truncate, to reduce title sizes according to space available. Min space allows 15 chars
+  const smartTruncate = (text, maxLength = 15) => {
+    const plain = stripHtml(text);
+    return plain.length > maxLength ? plain.slice(0, maxLength) + "…" : plain;
+  };
+
+  //highlight search feature, when user searches for text, search result is highlighted
+  const highlightMatch = (text) => {
+    if (!searchQuery) return text;
+    const regex = new RegExp(`(${searchQuery})`, "gi");
+
+    return text.split(regex).map((part, i) =>
+      part.match(regex) ? (
+        <mark key={i} className={styles.highlight}>
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
 
     return(
         <li className={styles.noteItem}>
@@ -84,5 +114,5 @@ export default function NoteItem({
         </span>
       </div>
     </li>
-    )
+    );
 }
