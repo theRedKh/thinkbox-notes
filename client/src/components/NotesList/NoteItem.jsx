@@ -9,7 +9,7 @@ export default function NoteItem({
     folders = [],
     searchQuery,
     onEdit,
-    onDelete,
+    onFavorite,
     onToggleLock,
     onMoveCategory,
 }){
