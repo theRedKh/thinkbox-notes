@@ -6,8 +6,10 @@ import hideIcon from "../../assets/hide_googlefonts.svg";
 export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [showSavedToast, setShowSavedToast] = useState(false);
 
   const textareaRef = useRef(null);
+  const toastTimeoutRef = useRef(null);
 
   // Load selected note
   useEffect(() => {
@@ -20,12 +22,22 @@ export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
     }
   }, [note]);
 
+  // cleanup toast timeout if component unmounts
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    };
+  }, []);
+
   // Save note to backend
   const handleSave = async () => {
     if (!note) return;
     try {
       await onUpdate(note.id, { title, content });
-      alert("Note saved!")
+      // show toast instead of alert
+      setShowSavedToast(true);
+      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = setTimeout(() => setShowSavedToast(false), 2500);
     } catch (err){
       console.error("Failed to save note:", err);
     }
@@ -85,6 +97,11 @@ export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
     <div className={styles.container}>
       {/* Hide/Close button */}
       <img src={hideIcon} alt="Hide" onClick={onClose} className={styles.hide} />
+
+      {/* Toast */}
+      <div className={`${styles.toast} ${showSavedToast ? styles.visible : ""}`} role="status" aria-live="polite">
+        Your note was saved!
+      </div>
 
       {/* Toolbar */}
       <Toolbar

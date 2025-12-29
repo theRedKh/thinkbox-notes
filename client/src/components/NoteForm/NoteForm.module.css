@@ -102,3 +102,25 @@
   width: 30px;
   cursor: pointer;
 }
+
+/* Toast */
+.toast {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--sage-active); /* green */
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  font-weight: 600;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
