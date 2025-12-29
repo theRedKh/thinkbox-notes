@@ -107,7 +107,7 @@
 .toast {
   position: absolute;
   top: 16px;
-  right: 16px;
+  right: 20%;
   background: var(--sage-active); /* green */
   color: white;
   padding: 8px 12px;
