@@ -1,6 +1,7 @@
 import styles from "./NotesList.module.css";
 import { useState } from "react";
-import MoveToCategoryModal from "./MoveTotCategoryModal";
+import MoveToCategoryModal from "./MoveToCategoryModal";
+import { BUILT_IN_CATEGORIES } from "../../config/categories";
 
 export default function NoteItem({
     note,
@@ -61,7 +62,7 @@ export default function NoteItem({
           <span
             className={styles.favorite}
             title="Favorite"
-            onClick={() => onToggleFavorite?.(note)}
+            onClick={(e) => e.stopPropagation()}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M8.00001 1.33333L10.06 5.50666L14.6667 6.18L11.3333 9.42666L12.12 14.0133L8.00001 11.8467L3.88001 14.0133L4.66668 9.42666L1.33334 6.18L5.94001 5.50666L8.00001 1.33333Z" 
@@ -73,8 +74,10 @@ export default function NoteItem({
           <span
             className={styles.lockIcon}
             title={note.locked ? "Unlock" : "Lock"}
-            onClick={() =>
+            onClick={(e) => {
+              e.stopPropagation();
               onToggleLock?.(note.id || note._id, note.locked)
+            }
             }
           >
             {note.locked ? (
@@ -92,7 +95,11 @@ export default function NoteItem({
           <span
             className={styles.more}
             title="More Actions"
-            onClick={() => setShowMoveModal(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (note.locked) return;
+              setShowMoveModal(true)
+            }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M10 10.8333C10.4603 10.8333 10.8334 10.4602 10.8334 10C10.8334 9.53976 10.4603 9.16666 10 9.16666C9.53978 9.16666 9.16669 9.53976 9.16669 10C9.16669 10.4602 9.53978 10.8333 10 10.8333Z" 
@@ -120,7 +127,7 @@ export default function NoteItem({
 
       {showMoveModal && (
         <MoveToCategoryModal
-          categories={categories}
+          categories={BUILT_IN_CATEGORIES}
           currentCategory={note.category}
           onClose={() => setShowMoveModal(false)}
           onSelect={(category) => {

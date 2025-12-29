@@ -29,7 +29,7 @@ function App() {
       title: "Untitled Note", 
       content: "", 
       locked: false,
-      category: "Personal",
+      category: null,
       isFavorite: false,
       isTrashed: false,
       created: new Date() 

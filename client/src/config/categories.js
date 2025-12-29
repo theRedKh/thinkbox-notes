@@ -1,0 +1,1 @@
+export const BUILT_IN_CATEGORIES = ["Personal", "Work", "Ideas"]; //categories are folders that come prebuilt
