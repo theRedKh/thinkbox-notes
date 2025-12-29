@@ -7,6 +7,11 @@ export default function PasswordPrompt({ title = "Password", message = "Enter pa
   const [error, setError] = useState("");
 
   const submit = async () => {
+    if (!password || password.length === 0) {
+      setError("Please enter a password");
+      return;
+    }
+
     setLoading(true);
     setError("");
     try {
@@ -28,16 +33,17 @@ export default function PasswordPrompt({ title = "Password", message = "Enter pa
           type="password"
           className={styles.input}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => { setPassword(e.target.value); if (error) setError(""); }}
           placeholder="Password..."
           autoFocus
+          onKeyDown={(e) => { if (e.key === "Enter" && !loading) submit(); }}
         />
 
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.actions}>
           <button className={styles.cancel} onClick={onCancel} disabled={loading}>Cancel</button>
-          <button className={styles.confirm} onClick={submit} disabled={loading || password.length === 0}>
+          <button className={styles.confirm} onClick={submit} disabled={loading}>
             {loading ? "Working..." : "Confirm"}
           </button>
         </div>
