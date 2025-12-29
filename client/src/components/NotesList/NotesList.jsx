@@ -22,7 +22,7 @@ export default function NotesList({
   const containerRef = useRef(null);
   const listRef = useRef(null);
 
-  const [width, setWidth] = useState(250);
+  const [width, setWidth] = useState(360);
   const [isResizing, setIsResizing] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
