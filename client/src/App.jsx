@@ -81,17 +81,28 @@ function App() {
     }
   };
 
-  const handleMoveCategory = async (noteId, newCategory) => {
+  const handleFavorite = async (id, currentFavorite) => {
     try {
-      const updatedNote = await updateNote(noteId, {
-        category: newCategory, //set category to user's choice on the note id selected
-      });
+      const updatedNote = await updateNote(id, { isFavorite: !currentFavorite });
+      setNotes((prev) => prev.map((note) => (note.id === id ? updatedNote : note)));
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    }
+  };
 
-      setNotes((prev) => 
-        prev.map((note) => 
-          note.id === noteId ? updatedNote : note
-        )
-      );
+  const handleTrash = async (id) => {
+    try {
+      const updatedNote = await updateNote(id, { isTrashed: true, isFavorite: false });
+      setNotes((prev) => prev.map((note) => (note.id === id ? updatedNote : note)));
+      // If the trashed note was open in the editor, close it
+      if (currentNoteIndex !== null && notes[currentNoteIndex]?.id === id) {
+        setCurrentNoteIndex(null);
+      }
+    } catch (err) {
+      console.error("Failed to trash note:", err);
+    }
+  };
+
     } catch (err) {
       console.error("Failed to move note:", err);
     }
@@ -120,6 +131,8 @@ function App() {
         onDelete={handleDeleteNote}
         onAdd={handleAddNote}
         onToggleLock={handleToggleLock}
+        onFavorite={handleFavorite}
+        onTrash={handleTrash}
         onMoveCategory = {handleMoveCategory}
       />
 

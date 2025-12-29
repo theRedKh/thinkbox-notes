@@ -60,11 +60,14 @@ export default function NotesList({
   //-------------------------------Filtering------------------------
 
   const filteredNotes = notes.filter((n) => {
+    // Exclude trashed notes from all views except the Trash tab
+    if (selectedFolder !== "Trash" && n.isTrashed) return false;
+
     const matchesFolder =
       selectedFolder === "All" ? true :
-      selectedFolder === "Favorites" ? n.isFavorite :
+      selectedFolder === "Favorites" ? (n.isFavorite && !n.isTrashed) :
       selectedFolder === "Trash" ? n.isTrashed :
-      n.category === selectedFolder;
+      (n.category === selectedFolder && !n.isTrashed);
 
     const q = (searchQuery || "").toLowerCase();
     const title = (n.title || "").toLowerCase();
@@ -144,6 +147,8 @@ export default function NotesList({
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onToggleLock={onToggleLock}
+                onFavorite={onFavorite}
+                onTrash={onTrash}
                 onMoveCategory={onMoveCategory}
               />
             ))}

@@ -65,13 +65,19 @@ export default function NoteItem({
           {/* Favorite */}
           <span
             className={styles.favorite}
-            title="Favorite"
-            onClick={(e) => e.stopPropagation()}
+            title={note.isFavorite ? "Unfavorite" : "Favorite"}
+            onClick={(e) => { e.stopPropagation(); onFavorite?.(note.id || note._id, note.isFavorite); }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M8.00001 1.33333L10.06 5.50666L14.6667 6.18L11.3333 9.42666L12.12 14.0133L8.00001 11.8467L3.88001 14.0133L4.66668 9.42666L1.33334 6.18L5.94001 5.50666L8.00001 1.33333Z" 
-                        stroke="#1E1E1E" strokeLinecap="round" strokeLinejoin="round"/>
+            {note.isFavorite ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="#FFD166">
+                <path d="M8.00001 1.33333L10.06 5.50666L14.6667 6.18L11.3333 9.42666L12.12 14.0133L8.00001 11.8467L3.88001 14.0133L4.66668 9.42666L1.33334 6.18L5.94001 5.50666L8.00001 1.33333Z" />
               </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8.00001 1.33333L10.06 5.50666L14.6667 6.18L11.3333 9.42666L12.12 14.0133L8.00001 11.8467L3.88001 14.0133L4.66668 9.42666L1.33334 6.18L5.94001 5.50666L8.00001 1.33333Z" 
+                stroke="#1E1E1E" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
           </span>
 
           {/* Lock */}
@@ -118,8 +124,8 @@ export default function NoteItem({
           {/* Trash */}
           <span
             className={styles.trashIcon}
-            title="Delete"
-            onClick={() => onDelete(note.id || note._id)}
+            title="Trash"
+            onClick={(e) => { e.stopPropagation(); onTrash?.(note.id || note._id); }}
           >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 21 21" fill="none">
                   <path d="M2.625 5.25H4.375M4.375 5.25H18.375M4.375 5.25V17.5C4.375 17.9641 4.55937 18.4092 4.88756 18.7374C5.21575 19.0656 5.66087 19.25 6.125 19.25H14.875C15.3391 19.25 15.7842 19.0656 16.1124 18.7374C16.4406 18.4092 16.625 17.9641 16.625 17.5V5.25M7 5.25V3.5C7 3.03587 7.18437 2.59075 7.51256 2.26256C7.84075 1.93437 8.28587 1.75 8.75 1.75H12.25C12.7141 1.75 13.1592 1.93437 13.4874 2.26256C13.8156 2.59075 14 3.03587 14 3.5V5.25" 
