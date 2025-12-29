@@ -1,14 +1,13 @@
 import { useState } from "react";
 import styles from "./Sidebar.module.css";
 
-export default function Sidebar() {
-  const [folders, setFolders] = useState(["Work", "Personal", "Ideas"]);
+export default function Sidebar({folders, setFolders, selectedFolder, setSelectedFolder}) {
+
   const [addingFolder, setAddingFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [editingFolder, setEditingFolder] = useState(null);
   const [renameValue, setRenameValue] = useState("");
-  const [selectedFolder, setSelectedFolder] = useState("All"); // default selected
-
+  
   const handleAddFolder = () => {
     if (newFolderName.trim() && !folders.includes(newFolderName.trim())) {
       setFolders([...folders, newFolderName.trim()]);

@@ -8,12 +8,14 @@ export default function NotesList({
   notes,
   searchQuery,
   setSearchQuery,
+  selectedFolder,
   onAdd,
   onDelete,
   onEdit,
   onToggleLock,
   onMoveCategory
-}) {
+})
+ {
   const containerRef = useRef(null);
   const listRef = useRef(null);
 
@@ -56,11 +58,21 @@ export default function NotesList({
 
   //-------------------------------Filtering------------------------
 
-  const filteredNotes = notes.filter(
-    (n) =>
-      n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      n.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredNotes = notes.filter((n) => {
+    const matchesFolder =
+      selectedFolder === "All" ? true :
+      selectedFolder === "Favorites" ? n.isFavorite :
+      selectedFolder === "Trash" ? n.isTrashed :
+      n.category === selectedFolder;
+
+    const q = (searchQuery || "").toLowerCase();
+    const title = (n.title || "").toLowerCase();
+    const content = (n.content || "").toLowerCase();
+
+    const matchesSearch = title.includes(q) || content.includes(q);
+
+    return matchesFolder && matchesSearch;
+  });
 
   const handleSearchFocus = () => {
     listRef.current?.scrollTo({top: 0, behavior: "smooth"});

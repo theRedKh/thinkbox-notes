@@ -9,6 +9,8 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); 
+  const [selectedFolder, setSelectedFolder] = useState("All");
+  const [folders, setFolders] = useState(["Work", "Personal", "Ideas"]);
 
   // Fetch notes on mount
   useEffect(() => {
@@ -96,7 +98,12 @@ function App() {
 
   return (
     <div className='app-container' style={{ display: 'flex' }}>
-      <Sidebar />
+      <Sidebar
+      folders={folders}
+      setFolders={setFolders}
+      selectedFolder={selectedFolder}
+      setSelectedFolder={setSelectedFolder}
+      />
 
       <NotesList
         notes={notes}
