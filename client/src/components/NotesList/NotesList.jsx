@@ -14,6 +14,8 @@ export default function NotesList({
   onDelete,
   onEdit,
   onToggleLock,
+  onFavorite,
+  onTrash,
   onMoveCategory
 })
  {
