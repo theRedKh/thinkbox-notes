@@ -16,6 +16,7 @@ export default function NotesList({
   onToggleLock,
   onFavorite,
   onTrash,
+  onRestore,
   onMoveCategory
 })
  {
@@ -145,12 +146,14 @@ export default function NotesList({
                 note={note}
                 index={index}
                 folders={folders}
+                selectedFolder={selectedFolder}
                 searchQuery={searchQuery}
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onToggleLock={onToggleLock}
                 onFavorite={onFavorite}
                 onTrash={onTrash}
+                onRestore={onRestore}
                 onMoveCategory={onMoveCategory}
               />
             ))}

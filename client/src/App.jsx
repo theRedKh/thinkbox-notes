@@ -103,6 +103,15 @@ function App() {
     }
   };
 
+  const handleRestore = async (id) => {
+    try {
+      const updatedNote = await updateNote(id, { isTrashed: false });
+      setNotes((prev) => prev.map((note) => (note.id === id ? updatedNote : note)));
+    } catch (err) {
+      console.error("Failed to restore note:", err);
+    }
+  };
+
   const handleMoveCategory = async (noteId, newCategory) => {
     try {
       const updatedNote = await updateNote(noteId, {
@@ -143,6 +152,7 @@ function App() {
         onFavorite={handleFavorite}
         onTrash={handleTrash}
         onMoveCategory = {handleMoveCategory}
+        onRestore={handleRestore}
       />
 
       {currentNoteIndex !== null ? (
