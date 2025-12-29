@@ -10,7 +10,7 @@ function App() {
   const [currentNoteIndex, setCurrentNoteIndex] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); 
   const [selectedFolder, setSelectedFolder] = useState("All");
-  const [folders, setFolders] = useState(["Work", "Personal", "Ideas"]);
+  const [folders, setFolders] = useState([]);
 
   // Fetch notes on mount
   useEffect(() => {
@@ -47,9 +47,10 @@ function App() {
 
   // Update a note
   const handleUpdateNote = async (id, updatedFields) => {
-    try {const updatedNote = await updateNote(id, updatedFields);
+    try {
+      const updatedNote = await updateNote(id, updatedFields);
       setNotes((prev) => 
-        prev.map((n) => (n.id === id ? updateNote : n)));
+        prev.map((n) => (n.id === id ? updatedNote : n)));
     } catch (err) {
       console.error("Failed to update note:",err);
     }
@@ -107,10 +108,15 @@ function App() {
 
       <NotesList
         notes={notes}
+        folders={folders}
         setNotes={setNotes}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        onEdit={(index) => setCurrentNoteIndex(index)}
+        selectedFolder={selectedFolder}
+        onEdit={(id) => {
+          const idx = notes.findIndex(n => n.id === id || n._id === id);
+          setCurrentNoteIndex(idx === -1 ? null : idx);
+        }}
         onDelete={handleDeleteNote}
         onAdd={handleAddNote}
         onToggleLock={handleToggleLock}

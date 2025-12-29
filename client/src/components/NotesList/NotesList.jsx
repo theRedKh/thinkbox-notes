@@ -6,6 +6,7 @@ import NoteItem from "./NoteItem";
 
 export default function NotesList({
   notes,
+  folders,
   searchQuery,
   setSearchQuery,
   selectedFolder,
@@ -138,6 +139,7 @@ export default function NotesList({
                 key={note.id || note._id}
                 note={note}
                 index={index}
+                folders={folders}
                 searchQuery={searchQuery}
                 onEdit={onEdit}
                 onDelete={onDelete}

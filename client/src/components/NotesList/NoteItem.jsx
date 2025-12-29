@@ -6,12 +6,16 @@ import { BUILT_IN_FOLDERS } from "../../config/categories";
 export default function NoteItem({
     note,
     index,
+    folders = [],
     searchQuery,
     onEdit,
     onDelete,
     onToggleLock,
     onMoveCategory,
 }){
+
+    const customCategories = folders.map(f => ({ id: f, name: f }));
+    const allCategories = [...BUILT_IN_FOLDERS, ...customCategories];
 
     const [showMoveModal, setShowMoveModal] = useState(false);
     //--------Helpers-----------
@@ -51,7 +55,7 @@ export default function NoteItem({
         <li className={styles.noteItem}>
           <div
             className={styles.noteText}
-            onClick={() => onEdit(index)}
+            onClick={() => onEdit(note.id || note._id)}
           >
             <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
             <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
@@ -127,7 +131,7 @@ export default function NoteItem({
 
       {showMoveModal && (
         <MoveToCategoryModal
-          categories={BUILT_IN_FOLDERS}
+          categories={allCategories}
           currentCategory={note.category}
           onClose={() => setShowMoveModal(false)}
           onSelect={(folderId) => {

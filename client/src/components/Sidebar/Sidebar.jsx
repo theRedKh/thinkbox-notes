@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Sidebar.module.css";
+import { BUILT_IN_FOLDERS } from "../../config/categories";
 
 export default function Sidebar({folders, setFolders, selectedFolder, setSelectedFolder}) {
 
@@ -70,6 +71,16 @@ export default function Sidebar({folders, setFolders, selectedFolder, setSelecte
       {/* Folders section */}
       <h3 className={styles.folderTitle}>Folders</h3>
       <ul className={styles.list}>
+        {BUILT_IN_FOLDERS.map((f) => (
+          <li
+            key={f.id}
+            className={`${selectedFolder === f.id ? styles.selected : ""}`}
+            onClick={() => setSelectedFolder(f.id)}
+          >
+            {f.name}
+          </li>
+        ))}
+
         {folders.map((folder, index) => (
           <li
             key={folder + index}
@@ -119,7 +130,6 @@ export default function Sidebar({folders, setFolders, selectedFolder, setSelecte
             )}
           </li>
         ))}
-
         {addingFolder && (
           <li className={`${styles.folderInputWrapper} ${styles.active}`}>
             <input
