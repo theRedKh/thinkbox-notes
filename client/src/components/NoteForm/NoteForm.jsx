@@ -93,6 +93,20 @@ export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
     }, 0);
   };
 
+  // Format created date into 24-hour time without seconds
+  const formattedCreated = note?.created ? (() => {
+    const d = new Date(note.created);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  })() : "";
+
   return (
     <div className={styles.container}>
       {/* Hide/Close button */}
@@ -123,16 +137,7 @@ export default function NoteForm({ note, onUpdate, searchQuery, onClose }) {
       />
 
       {/* Date display */}
-      <p className={styles.dateTime}>
-        {note &&
-          note.created?.toLocaleString("en-US", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit",
-          })}
-      </p>
+      <p className={styles.dateTime}>{formattedCreated}</p>
 
       {/* Editor wrapper */}
       <div className={styles.editorWrapper}>
