@@ -21,14 +21,17 @@ function App() {
       }
     }
     fetchNotes();
-  }, []); // ✅ empty dependency array to run only once
+  }, []); // empty dependency array to run only once
 
-  // 🟢 Add a new note
+  // Add a new note
   const handleAddNote = async () => {
     const newNote = { 
       title: "Untitled Note", 
       content: "", 
-      locked: false, 
+      locked: false,
+      category: "Personal",
+      isFavorite: false,
+      isTrashed: false,
       created: new Date() 
     };
     try {
@@ -40,14 +43,17 @@ function App() {
     }
   };
 
-  // 🟡 Update a note
+  // Update a note
   const handleUpdateNote = async (id, updatedFields) => {
-    const updatedNote = await updateNote(id, updatedFields);
-    setNotes((prev) => 
-      prev.map((n) => (n.id === id ? updateNote : n)));
+    try {const updatedNote = await updateNote(id, updatedFields);
+      setNotes((prev) => 
+        prev.map((n) => (n.id === id ? updateNote : n)));
+    } catch (err) {
+      console.error("Failed to update note:",err);
+    }
   };
 
-  // 🔴 Delete a note
+  // Delete a note
   const handleDeleteNote = async (id) => {
     try {
       await deleteNote(id);
@@ -72,6 +78,10 @@ function App() {
     }
   };
 
+  const handleMoveCategory = async (noteId, newCategory) => {
+
+  }
+  
   return (
     <div className='app-container' style={{ display: 'flex' }}>
       <Sidebar />
