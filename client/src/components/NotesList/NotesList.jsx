@@ -12,6 +12,7 @@ export default function NotesList({
   selectedFolder,
   onAdd,
   onDelete,
+  onRequestDelete,
   onEdit,
   onToggleLock,
   onFavorite,
@@ -150,6 +151,7 @@ export default function NotesList({
                 searchQuery={searchQuery}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                onRequestDelete={onRequestDelete}
                 onToggleLock={onToggleLock}
                 onFavorite={onFavorite}
                 onTrash={onTrash}

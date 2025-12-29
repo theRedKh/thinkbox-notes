@@ -3,6 +3,7 @@ import './App.css';
 import NoteForm from './components/NoteForm/NoteForm';
 import NotesList from './components/NotesList/NotesList';
 import Sidebar from './components/Sidebar/Sidebar';
+import ConfirmDialogue from './components/ConfirmDialogue/ConfirmDialogue';
 import { getNotes, addNote, updateNote, deleteNote } from "./utils/notesAPI";
 
 function App() {
@@ -103,6 +104,22 @@ function App() {
     }
   };
 
+  // --- Permanent delete confirmation flow ---
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+
+  const requestDeleteNote = (id) => setConfirmDeleteId(id);
+
+  const cancelDelete = () => setConfirmDeleteId(null);
+
+  const confirmDelete = async () => {
+    if (confirmDeleteId == null) return;
+    try {
+      await handleDeleteNote(confirmDeleteId);
+    } finally {
+      setConfirmDeleteId(null);
+    }
+  };
+
   const handleRestore = async (id) => {
     try {
       const updatedNote = await updateNote(id, { isTrashed: false });
@@ -147,13 +164,23 @@ function App() {
           setCurrentNoteIndex(idx === -1 ? null : idx);
         }}
         onDelete={handleDeleteNote}
+        onRequestDelete={requestDeleteNote}
         onAdd={handleAddNote}
         onToggleLock={handleToggleLock}
         onFavorite={handleFavorite}
         onTrash={handleTrash}
-        onMoveCategory = {handleMoveCategory}
         onRestore={handleRestore}
+        onMoveCategory = {handleMoveCategory}
       />
+
+      {confirmDeleteId != null && (
+        <ConfirmDialogue
+          title="Delete note"
+          message="This will permanently delete the note. Are you sure?"
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
 
       {currentNoteIndex !== null ? (
         <NoteForm
