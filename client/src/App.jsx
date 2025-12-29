@@ -103,10 +103,19 @@ function App() {
     }
   };
 
+  const handleMoveCategory = async (noteId, newCategory) => {
+    try {
+      const updatedNote = await updateNote(noteId, {
+        category: newCategory, // set category to user's choice on the note id selected
+      });
+
+      setNotes((prev) => 
+        prev.map((note) => (note.id === noteId ? updatedNote : note))
+      );
     } catch (err) {
       console.error("Failed to move note:", err);
     }
-  }
+  };
 
   return (
     <div className='app-container' style={{ display: 'flex' }}>
