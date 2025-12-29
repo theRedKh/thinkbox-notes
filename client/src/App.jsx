@@ -107,6 +107,7 @@ function App() {
         onDelete={handleDeleteNote}
         onAdd={handleAddNote}
         onToggleLock={handleToggleLock}
+        onMoveCategory = {handleMoveCategory}
       />
 
       {currentNoteIndex !== null ? (

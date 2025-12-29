@@ -12,6 +12,7 @@ export default function NotesList({
   onDelete,
   onEdit,
   onToggleLock,
+  onMoveCategory
 }) {
   const containerRef = useRef(null);
   const listRef = useRef(null);
