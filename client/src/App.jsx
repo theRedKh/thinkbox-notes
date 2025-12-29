@@ -4,6 +4,8 @@ import NoteForm from './components/NoteForm/NoteForm';
 import NotesList from './components/NotesList/NotesList';
 import Sidebar from './components/Sidebar/Sidebar';
 import ConfirmDialogue from './components/ConfirmDialogue/ConfirmDialogue';
+import PasswordPrompt from './components/PasswordPrompt/PasswordPrompt';
+import { generateSalt, getKeyFromPassphrase, encryptData, decryptText } from '../../encryption';
 import { getNotes, addNote, updateNote, deleteNote } from "./utils/notesAPI";
 
 function App() {
@@ -104,6 +106,43 @@ function App() {
     }
   };
 
+  const handleEncrypt = async (id, password) => {
+    try {
+      const note = notes.find((n) => n.id === id || n._id === id);
+      if (!note) throw new Error("Note not found");
+      const salt = generateSalt();
+      const key = await getKeyFromPassphrase(password, salt);
+      const payload = await encryptData(note.content || "", key);
+      const encrypted = { iv: payload.iv, data: payload.data, salt: Array.from(salt) };
+      const updatedNote = await updateNote(id, { content: "", encrypted, locked: true });
+      setNotes((prev) => prev.map((n) => (n.id === id ? updatedNote : n)));
+      // close editor if currently open
+      if (currentNoteIndex !== null && notes[currentNoteIndex]?.id === id) {
+        setCurrentNoteIndex(null);
+      }
+      return true;
+    } catch (err) {
+      console.error("Failed to encrypt note:", err);
+      throw err;
+    }
+  };
+
+  const handleDecrypt = async (id, password) => {
+    try {
+      const note = notes.find((n) => n.id === id || n._id === id);
+      if (!note || !note.encrypted) throw new Error("No encrypted payload");
+      const saltBytes = new Uint8Array(note.encrypted.salt);
+      const key = await getKeyFromPassphrase(password, saltBytes);
+      const decrypted = await decryptText({ iv: note.encrypted.iv, data: note.encrypted.data }, key);
+      const updatedNote = await updateNote(id, { content: decrypted, encrypted: null, locked: false });
+      setNotes((prev) => prev.map((n) => (n.id === id ? updatedNote : n)));
+      return true;
+    } catch (err) {
+      console.error("Failed to decrypt note:", err);
+      throw err;
+    }
+  };
+
   // --- Permanent delete confirmation flow ---
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
@@ -167,6 +206,8 @@ function App() {
         onRequestDelete={requestDeleteNote}
         onAdd={handleAddNote}
         onToggleLock={handleToggleLock}
+        onEncrypt={handleEncrypt}
+        onDecrypt={handleDecrypt}
         onFavorite={handleFavorite}
         onTrash={handleTrash}
         onRestore={handleRestore}

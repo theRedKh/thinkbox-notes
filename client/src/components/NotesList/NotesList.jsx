@@ -15,6 +15,8 @@ export default function NotesList({
   onRequestDelete,
   onEdit,
   onToggleLock,
+  onEncrypt,
+  onDecrypt,
   onFavorite,
   onTrash,
   onRestore,
@@ -153,6 +155,8 @@ export default function NotesList({
                 onDelete={onDelete}
                 onRequestDelete={onRequestDelete}
                 onToggleLock={onToggleLock}
+                onEncrypt={onEncrypt}
+                onDecrypt={onDecrypt}
                 onFavorite={onFavorite}
                 onTrash={onTrash}
                 onRestore={onRestore}

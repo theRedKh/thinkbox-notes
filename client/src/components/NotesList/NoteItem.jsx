@@ -2,6 +2,7 @@ import styles from "./NotesList.module.css";
 import { useState } from "react";
 import MoveToCategoryModal from "./MoveToCategoryModal";
 import { BUILT_IN_FOLDERS } from "../../config/categories";
+import PasswordPrompt from "../PasswordPrompt/PasswordPrompt";
 
 export default function NoteItem({
     note,
@@ -14,6 +15,8 @@ export default function NoteItem({
     onRestore,
     onRequestDelete,
     onToggleLock,
+    onEncrypt,
+    onDecrypt,
     onMoveCategory,
     selectedFolder,
 }){
@@ -22,6 +25,9 @@ export default function NoteItem({
     const allCategories = [...BUILT_IN_FOLDERS, ...customCategories];
 
     const [showMoveModal, setShowMoveModal] = useState(false);
+    const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+    const [passwordMode, setPasswordMode] = useState(null);
+    const [pendingOpenOnDecrypt, setPendingOpenOnDecrypt] = useState(false);
     //--------Helpers-----------
     const stripHtml = (html) => {
     //this is a security feature, as well as cleaning visuals
@@ -59,7 +65,17 @@ export default function NoteItem({
         <li className={styles.noteItem}>
           <div
             className={styles.noteText}
-            onClick={() => onEdit(note.id || note._id)}
+            onClick={async () => {
+              const id = note.id || note._id;
+              if (note.locked) {
+                // prompt for password to decrypt before opening
+                setPasswordMode("decrypt");
+                setPendingOpenOnDecrypt(true);
+                setShowPasswordPrompt(true);
+                return;
+              }
+              onEdit?.(id);
+            }}
           >
             <strong>{highlightMatch(smartTruncate(note.title, 15))}</strong>
             <p>{highlightMatch(smartTruncate(note.content, 12))}</p>
@@ -116,9 +132,11 @@ export default function NoteItem({
                 title={note.locked ? "Unlock" : "Lock"}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onToggleLock?.(note.id || note._id, note.locked)
-                }
-                }
+                  const mode = note.locked ? "decrypt" : "encrypt";
+                  setPasswordMode(mode);
+                  setPendingOpenOnDecrypt(false);
+                  setShowPasswordPrompt(true);
+                }}
               >
                 {note.locked ? (
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -176,6 +194,31 @@ export default function NoteItem({
             onMoveCategory(note.id || note._id, folderId);
             setShowMoveModal(false);
           }}
+        />
+      )}
+
+      {showPasswordPrompt && (
+        <PasswordPrompt
+          title={passwordMode === "encrypt" ? "Lock note" : "Unlock note"}
+          message={passwordMode === "encrypt" ? "Enter a password to encrypt this note." : "Enter the password to decrypt this note."}
+          onConfirm={async (password) => {
+            const id = note.id || note._id;
+            if (passwordMode === "encrypt") {
+              if (!onEncrypt) throw new Error("Encryption handler not available");
+              await onEncrypt(id, password);
+            } else {
+              if (!onDecrypt) throw new Error("Decryption handler not available");
+              await onDecrypt(id, password);
+              // if user clicked the item to view, open it after successful decrypt
+              if (pendingOpenOnDecrypt) {
+                // give React a tick to apply state updates from decrypt
+                setTimeout(() => onEdit?.(id), 50);
+              }
+            }
+            setPendingOpenOnDecrypt(false);
+            setShowPasswordPrompt(false);
+          }}
+          onCancel={() => { setPendingOpenOnDecrypt(false); setShowPasswordPrompt(false); }}
         />
       )}
     </>
