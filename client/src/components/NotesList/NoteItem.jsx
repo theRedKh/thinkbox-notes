@@ -73,9 +73,9 @@ export default function NoteItem({
                 title="Restore"
                 onClick={(e) => { e.stopPropagation(); onRestore?.(note.id || note._id); }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 10a9 9 0 1 0-3.2 6.8" stroke="#1E1E1E" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M21 4v6h-6" stroke="#1E1E1E" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M0.833313 3.33334V8.33334M0.833313 8.33334H5.83331M0.833313 8.33334L4.69998 4.70001C5.85074 3.55119 7.34369 2.80748 8.95388 2.58094C10.5641 2.35439 12.2043 2.65729 13.6273 3.44398C15.0504 4.23067 16.1793 5.45854 16.8438 6.94259C17.5084 8.42664 17.6726 10.0865 17.3118 11.672C16.951 13.2575 16.0847 14.6828 14.8434 15.7331C13.6021 16.7835 12.0531 17.402 10.4297 17.4954C8.80638 17.5888 7.19663 17.1522 5.84303 16.2512C4.48943 15.3502 3.46531 14.0337 2.92498 12.5" 
+                    stroke="#1E1E1E" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
 
@@ -84,7 +84,7 @@ export default function NoteItem({
                 title="Delete permanently"
                 onClick={(e) => { e.stopPropagation(); onDelete?.(note.id || note._id); }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 21 21" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 21 21" fill="none">
                   <path d="M2.625 5.25H4.375M4.375 5.25H18.375M4.375 5.25V17.5C4.375 17.9641 4.55937 18.4092 4.88756 18.7374C5.21575 19.0656 5.66087 19.25 6.125 19.25H14.875C15.3391 19.25 15.7842 19.0656 16.1124 18.7374C16.4406 18.4092 16.625 17.9641 16.625 17.5V5.25M7 5.25V3.5C7 3.03587 7.18437 2.59075 7.51256 2.26256C7.84075 1.93437 8.28587 1.75 8.75 1.75H12.25C12.7141 1.75 13.1592 1.93437 13.4874 2.26256C13.8156 2.59075 14 3.03587 14 3.5V5.25" 
                   strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>

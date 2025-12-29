@@ -162,7 +162,8 @@
 .trashIcon svg path,
 .lockIcon svg path,
 .more svg path,
-.favorite svg path {
+.favorite svg path,
+.restoreIcon svg path {
   stroke: #888;
   transition: stroke 0.2s ease;
 }
@@ -299,3 +300,4 @@
 .categoryItem:hover {
   background-color: #f0f0f0;
 }
+
