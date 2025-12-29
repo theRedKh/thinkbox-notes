@@ -6,9 +6,10 @@ This project is part of a hands-on journey into DevSecOps and web app security, 
 
 ## ⚡Features
  - Add and delete notes instantly
- - Persistent storage using `local storage` - transferring to `file storage`
+ - Persistent storage using `local storage` - transferred to `JSON file storage`
  - Fully offline - works without internet
- - Simple, clean interface, customizable themes
+ - Simple, clean interface, customizable themes - (version 0.2.0 supports only the `sage` theme)
+ - Password Lock private notes with a powerful AES-256-GCM encryption algorithm
 
 
 ## 🛡️Security-Focused Goals (In Progress)
@@ -25,4 +26,23 @@ This project is part of a hands-on journey into DevSecOps and web app security, 
 
 ## ☁️ Updates:
  - version 0.1.0: First working prototype, basic notes, minimal styling - Made only in HTML/CSS/JS
- - version 0.2.0: Upcoming. Stay tuned :)
+ - version 0.2.0: Second working prototype: 
+    - text notes with some styling (bold, italics, bullet pts etc)
+    - categorize notes into folders
+    - favorite notes
+    - **Successful ENCRYPTION, password based**
+
+## 📦 How to run and use it
+`This project is currently under development`
+
+1. Clone the repo
+2. Install Dependencies
+3. Within the project in vs code:
+```windows powershell
+cd client
+npm run dev
+
+cd server
+npm start
+```
+**The main frontend runs on localhost:5173**
