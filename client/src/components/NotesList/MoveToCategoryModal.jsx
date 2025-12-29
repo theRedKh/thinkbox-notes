@@ -1,4 +1,4 @@
-import styles from "./NoteslIst.module.css";
+import styles from "./NotesList.module.css";
 
 export default function MoveToCategoryModal({
     categories,

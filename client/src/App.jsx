@@ -81,7 +81,7 @@ function App() {
   const handleMoveCategory = async (noteId, newCategory) => {
     try {
       const updatedNote = await updateNote(noteId, {
-        category: newCategory,
+        category: newCategory, //set category to user's choice on the note id selected
       });
 
       setNotes((prev) => 
