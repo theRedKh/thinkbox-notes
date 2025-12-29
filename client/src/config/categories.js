@@ -1,1 +1,5 @@
-export const BUILT_IN_CATEGORIES = ["Personal", "Work", "Ideas"]; //categories are folders that come prebuilt
+export const BUILT_IN_FOLDERS = [
+    {id: "work", name: "Work"},
+    {id: "personal", name: "Personal"},
+    {id: "ideas", name: "Ideas"}
+];

@@ -1,7 +1,7 @@
 import styles from "./NotesList.module.css";
 import { useState } from "react";
 import MoveToCategoryModal from "./MoveToCategoryModal";
-import { BUILT_IN_CATEGORIES } from "../../config/categories";
+import { BUILT_IN_FOLDERS } from "../../config/categories";
 
 export default function NoteItem({
     note,
@@ -127,11 +127,11 @@ export default function NoteItem({
 
       {showMoveModal && (
         <MoveToCategoryModal
-          categories={BUILT_IN_CATEGORIES}
+          categories={BUILT_IN_FOLDERS}
           currentCategory={note.category}
           onClose={() => setShowMoveModal(false)}
-          onSelect={(category) => {
-            onMoveCategory(note.id || note._id, category);
+          onSelect={(folderId) => {
+            onMoveCategory(note.id || note._id, folderId);
             setShowMoveModal(false);
           }}
         />
