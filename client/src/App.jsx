@@ -5,7 +5,7 @@ import NotesList from './components/NotesList/NotesList';
 import Sidebar from './components/Sidebar/Sidebar';
 import ConfirmDialogue from './components/ConfirmDialogue/ConfirmDialogue';
 import PasswordPrompt from './components/PasswordPrompt/PasswordPrompt';
-import { generateSalt, getKeyFromPassphrase, encryptData, decryptText } from '../../encryption';
+import { generateSalt, getKeyFromPassphrase, encryptData, decryptText } from './utils/encryption';
 import { getNotes, addNote, updateNote, deleteNote } from "./utils/notesAPI";
 
 function App() {
