@@ -15,15 +15,15 @@ export default function MoveToCategoryModal({
                 <h4 className={styles.modalTitle}>Move to...</h4>
 
                 <ul className={styles.categoryList}>
-                    {categories.map((cat) => ( //map categories from an imported list of categories to each list item -- dynamic modal
+                    {categories.map((folder) => ( //map categories from an imported list of categories to each list item -- dynamic modal
                         <li
-                            key={cat}
+                            key={folder.id}
                             className={`${styles.categoryItem} ${
-                                cat === currentCategory ? styles.activeCategory : ""
+                                folder.id === currentCategory ? styles.activeCategory : ""
                             }`}
-                            onClick={() => onSelect(cat)}
+                            onClick={() => onSelect(folder.id)}
                         >
-                            {cat}
+                            {folder.name}
                         </li>
                     ))}
                 </ul>
