@@ -26,11 +26,14 @@ This project is part of a hands-on journey into DevSecOps and web app security, 
 
 ## ☁️ Updates:
  - version 0.1.0: First working prototype, basic notes, minimal styling - Made only in HTML/CSS/JS
- - version 0.2.0: Second working prototype: 
-    - text notes with some styling (bold, italics, bullet pts etc)
-    - categorize notes into folders
-    - favorite notes
-    - **Successful ENCRYPTION, password based**
+ - version 0.2.0: 
+    - Second working prototype: 
+        - Restyled interface
+        - text notes with some styling (bold, italics, bullet pts etc)
+        - categorize notes into folders
+        - favorite notes
+        - Sage themed buttons
+        - **Successful ENCRYPTION, password based**
 
 ## 📦 How to run and use it
 `This project is currently under development`
