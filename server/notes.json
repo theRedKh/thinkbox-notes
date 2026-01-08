@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 1767114080531,
+    "title": "Welcome to NoteHaven",
+    "content": "This is a note.\n",
+    "locked": false,
+    "category": "personal",
+    "isFavorite": false,
+    "isTrashed": true,
+    "created": "2025-12-30T17:01:20.465Z"
+  }
+]
